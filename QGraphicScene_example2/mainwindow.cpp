@@ -11,10 +11,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->graphicsView->setScene(scene);
 
     // create our object and add it to the scene
-    for(int i=10;i<=400;i+=110)
-        for(int j=10;j<=200;j+=40)
+    for(int i=10;i<=400;i+=210)
+        for(int j=10;j<=200;j+=60)
         {
-            scene->addItem(new MyGraphicItem(i,j,100,30));
+            scene->addItem(new MyGraphicItem(i,j,200,50));
         }
 }
 
