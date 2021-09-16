@@ -27,9 +27,9 @@ MainWindow::MainWindow(QWidget *parent)
     polygon2.append(QPointF(-100,-20));
 
 
-    scene->addItem(new MyGraphicItem(polygon));
+    scene->addItem(new InheritedGraphicsPolygon(polygon));
     scene->addRect(0,0,100,20);
-    scene->addItem(new MyGraphicItem(polygon2));
+    scene->addItem(new InheritedGraphicsPolygon(polygon2));
 
 }
 

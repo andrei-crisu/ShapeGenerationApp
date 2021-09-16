@@ -11,7 +11,7 @@ void CustomScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
     if (mouseEvent->button() == Qt::LeftButton)
     {
         QGraphicsItem *item = itemAt(mouseEvent->scenePos(), QTransform());// it is your clicked item, you can do everything what you want. for example send it somewhere
-        MyGraphicItem *myItem = qgraphicsitem_cast<MyGraphicItem *>(item);
+        InheritedGraphicsPolygon *myItem = qgraphicsitem_cast<InheritedGraphicsPolygon *>(item);
         if(myItem)
         {
             qDebug() << "is a polygon item" << mouseEvent->scenePos();

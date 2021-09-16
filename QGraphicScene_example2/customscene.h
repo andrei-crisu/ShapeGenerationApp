@@ -3,7 +3,7 @@
 
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
-#include"mygraphicitem.h"
+#include"inheritedgraphicspolygon.h"
 #include<QTransform>
 
 class CustomScene : public QGraphicsScene

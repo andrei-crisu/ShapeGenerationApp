@@ -13,15 +13,13 @@ SOURCES += \
     customscene.cpp \
     inheritedgraphicspolygon.cpp \
     main.cpp \
-    mainwindow.cpp \
-    mygraphicitem.cpp
+    mainwindow.cpp
 
 HEADERS += \
     basic_use.h \
     customscene.h \
     inheritedgraphicspolygon.h \
-    mainwindow.h \
-    mygraphicitem.h
+    mainwindow.h
 
 FORMS += \
     mainwindow.ui
