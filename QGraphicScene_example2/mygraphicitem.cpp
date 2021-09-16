@@ -1,6 +1,6 @@
 #include "mygraphicitem.h"
 
-MyGraphicItem::MyGraphicItem(double x,double y,double width,double height)
+MyGraphicItem::MyGraphicItem(QPolygonF &other_polygon):QGraphicsPolygonItem(other_polygon)
 {
     Pressed=false;
     dblClick=false;
@@ -8,22 +8,19 @@ MyGraphicItem::MyGraphicItem(double x,double y,double width,double height)
     //setFlag(ItemIsMovable);
     setFlag(ItemIsSelectable,true);
     setAcceptHoverEvents(true);
-    pos_x=x;
-    pos_y=y;
-    item_width=width;
-    item_height=height;
+    QRectF rect=other_polygon.boundingRect();
+    pos_x=rect.x();
+    pos_y=rect.y();
+    bounding_rectangle_width=rect.width();
+    bounding_rectangle_height=rect.height();
     setToolTip(getToolTip());
+    polygon=other_polygon;
 
-}
-
-QRectF MyGraphicItem::boundingRect() const
-{
-    return QRectF(pos_x,pos_y,item_width,item_height);
 }
 
 void MyGraphicItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    QRectF rectangle=boundingRect();
+    QPainterPath path;
 
     if(Pressed)
     {
@@ -31,7 +28,10 @@ void MyGraphicItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
         QBrush brush(Qt::darkRed,Qt::Dense4Pattern);
         painter->setPen(pen);
         painter->setBrush(brush);
-        painter->drawRect(rectangle);
+        // Draw polygon with background
+        path.addPolygon(polygon);
+        painter->drawPolygon(polygon);
+        painter->fillPath(path, brush);
     }
     else
         if(isHovered)
@@ -40,7 +40,11 @@ void MyGraphicItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
             QBrush brush(Qt::darkYellow,Qt::Dense4Pattern);
             painter->setPen(pen);
             painter->setBrush(brush);
-            painter->drawRect(rectangle);
+            // Draw polygon with background
+            path.addPolygon(polygon);
+            painter->drawPolygon(polygon);
+            painter->fillPath(path, brush);
+
         }
         else
         {
@@ -48,15 +52,32 @@ void MyGraphicItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
             QBrush brush(Qt::gray,Qt::Dense4Pattern);
             painter->setPen(pen);
             painter->setBrush(brush);
-            painter->drawRect(rectangle);
+            // Draw polygon with background
+            path.addPolygon(polygon);
+            painter->drawPolygon(polygon);
+            painter->fillPath(path, brush);
+
         }
+    // QGraphicsPolygonItem::paint(painter,option,widget);
+}
+
+QRectF MyGraphicItem::boundingRect() const
+{
+    return QGraphicsPolygonItem::boundingRect();
+}
+
+QPainterPath MyGraphicItem::shape() const
+{
+    return QGraphicsPolygonItem::shape();
 }
 
 QString MyGraphicItem::getToolTip()
 {
     QString myToolTip,aux;
     myToolTip=html_sized_text("Shape information",22,true);
-    aux="Position: (x=";
+    aux="Bounding rectangle:";
+    aux+="<br>";
+    aux+="Position: (x=";
     aux+=QString::number(pos_x,'g');
     aux+=",y=";
     aux+=QString::number(pos_y,'g');
@@ -69,34 +90,27 @@ void MyGraphicItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     Pressed = true;
     update();
-    QGraphicsItem::mousePressEvent(event);
+    QGraphicsPolygonItem::mousePressEvent(event);
 }
 
 void MyGraphicItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     Pressed = false;
     update();
-    QGraphicsItem::mouseReleaseEvent(event);
+    QGraphicsPolygonItem::mouseReleaseEvent(event);
 }
-
-//void MyGraphicItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
-//{
-//    dblClick=!dblClick;
-//    update();
-//    QGraphicsItem::mouseDoubleClickEvent(event);
-//}
 
 void MyGraphicItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
     isHovered=true;
     update();
-    QGraphicsItem::hoverEnterEvent(event);
+    QGraphicsPolygonItem::hoverEnterEvent(event);
 }
 
 void MyGraphicItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
     isHovered=false;
     update();
-    QGraphicsItem::hoverLeaveEvent(event);
+    QGraphicsPolygonItem::hoverLeaveEvent(event);
 
 }

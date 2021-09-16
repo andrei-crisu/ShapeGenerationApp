@@ -6,24 +6,25 @@
 #include<QPainter>
 #include"basic_use.h"
 
-class MyGraphicItem : public QGraphicsItem
+class MyGraphicItem : public QGraphicsPolygonItem
 {
 public:
-    MyGraphicItem(double x,double y,double width,double height);
-    QRectF boundingRect() const;
+    MyGraphicItem(QPolygonF &init_polygon);
 
     //override paint()
     void paint(QPainter *painter,
                const QStyleOptionGraphicsItem * option,
-               QWidget *widget);
+               QWidget *widget)override;
+    QRectF boundingRect() const override;
+     QPainterPath shape() const override;
 
 protected:
     //overriding mouse events
-    void mousePressEvent(QGraphicsSceneMouseEvent *event );
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent * event);
-    //void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
-    void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
-    void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
+    void mousePressEvent(QGraphicsSceneMouseEvent *event )override;
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent * event)override;
+    //void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)override;
+    void hoverEnterEvent(QGraphicsSceneHoverEvent *event)override;
+    void hoverLeaveEvent(QGraphicsSceneHoverEvent *event)override;
 
 public:
     bool Pressed;
@@ -31,8 +32,9 @@ public:
     bool isHovered;
     double pos_x;
     double pos_y;
-    double item_width;
-    double item_height;
+    double bounding_rectangle_width;
+    double bounding_rectangle_height;
+    QPolygonF polygon;
 
     QString getToolTip();
 };

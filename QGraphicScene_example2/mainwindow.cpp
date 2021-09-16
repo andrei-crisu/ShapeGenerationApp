@@ -10,12 +10,27 @@ MainWindow::MainWindow(QWidget *parent)
     scene = new CustomScene(this);
     ui->graphicsView->setScene(scene);
 
-    // create our object and add it to the scene
-    for(int i=10;i<=400;i+=210)
-        for(int j=10;j<=200;j+=60)
-        {
-            scene->addItem(new MyGraphicItem(i,j,200,50));
-        }
+
+    //
+    QPolygonF polygon,polygon2;
+    polygon.append(QPointF(20,50));
+    polygon.append(QPointF(100,60));
+    polygon.append(QPointF(120,100));
+    polygon.append(QPointF(100,140));
+    polygon.append(QPointF(40,140));
+    polygon.append(QPointF(30,80));
+    polygon.append(QPointF(0,80));
+
+    polygon2.append(QPointF(-100,-100));
+    polygon2.append(QPointF(-50,-100));
+    polygon2.append(QPointF(-50,-20));
+    polygon2.append(QPointF(-100,-20));
+
+
+    scene->addItem(new MyGraphicItem(polygon));
+    scene->addRect(0,0,100,20);
+    scene->addItem(new MyGraphicItem(polygon2));
+
 }
 
 MainWindow::~MainWindow()

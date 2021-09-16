@@ -14,10 +14,18 @@ void CustomScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
         MyGraphicItem *myItem = qgraphicsitem_cast<MyGraphicItem *>(item);
         if(myItem)
         {
-            qDebug() << "is an item" << mouseEvent->scenePos();
+            qDebug() << "is a polygon item" << mouseEvent->scenePos();
         }
         else
-            qDebug() << "NOT an item" << mouseEvent->scenePos();
-    }
+            if(item)
+            {
+                qDebug() << "NOT a polygon item...but other shape" << mouseEvent->scenePos();
+            }
+        else
+            {
+                qDebug()<<"Nothing";
+            }
 
+    }
+    QGraphicsScene::mousePressEvent(mouseEvent);
 }
