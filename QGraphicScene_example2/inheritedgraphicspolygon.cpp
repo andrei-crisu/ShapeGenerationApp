@@ -1,12 +1,13 @@
 #include "inheritedgraphicspolygon.h"
+#include<QGraphicsSceneMouseEvent>
 
 InheritedGraphicsPolygon::InheritedGraphicsPolygon(QPolygonF &other_polygon):QGraphicsPolygonItem(other_polygon)
 {
     Pressed=false;
     dblClick=false;
     isHovered=false;
-    //setFlag(ItemIsMovable);
     setFlag(ItemIsSelectable,true);
+    setFlag(ItemSendsGeometryChanges,true);
     setAcceptHoverEvents(true);
     QRectF rect=other_polygon.boundingRect();
     pos_x=rect.x();
@@ -14,23 +15,21 @@ InheritedGraphicsPolygon::InheritedGraphicsPolygon(QPolygonF &other_polygon):QGr
     bounding_rectangle_width=rect.width();
     bounding_rectangle_height=rect.height();
     setToolTip(getToolTip());
-    polygon=other_polygon;
-
+    setPolygon(other_polygon);
 }
 
-void InheritedGraphicsPolygon::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void InheritedGraphicsPolygon::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
     QPainterPath path;
-
     if(Pressed)
     {
-        QPen pen(Qt::darkRed, 1);
-        QBrush brush(Qt::darkRed,Qt::Dense4Pattern);
+        QPen pen(Qt::darkGreen, 1);
+        QBrush brush(Qt::darkGreen,Qt::Dense4Pattern);
         painter->setPen(pen);
         painter->setBrush(brush);
         // Draw polygon with background
-        path.addPolygon(polygon);
-        painter->drawPolygon(polygon);
+        path.addPolygon(polygon());
+        painter->drawPolygon(polygon());
         painter->fillPath(path, brush);
     }
     else
@@ -41,21 +40,35 @@ void InheritedGraphicsPolygon::paint(QPainter *painter, const QStyleOptionGraphi
             painter->setPen(pen);
             painter->setBrush(brush);
             // Draw polygon with background
-            path.addPolygon(polygon);
-            painter->drawPolygon(polygon);
+            path.addPolygon(polygon());
+            painter->drawPolygon(polygon());
             painter->fillPath(path, brush);
 
         }
         else
         {
-            QPen pen(Qt::gray,1);
-            QBrush brush(Qt::gray,Qt::Dense4Pattern);
-            painter->setPen(pen);
-            painter->setBrush(brush);
-            // Draw polygon with background
-            path.addPolygon(polygon);
-            painter->drawPolygon(polygon);
-            painter->fillPath(path, brush);
+            if(!scene()->collidingItems(this).isEmpty())
+            {
+                QPen pen(Qt::darkRed,1);
+                QBrush brush(Qt::darkRed,Qt::Dense4Pattern);
+                painter->setPen(pen);
+                painter->setBrush(brush);
+                // Draw polygon with background
+                path.addPolygon(polygon());
+                painter->drawPolygon(polygon());
+                painter->fillPath(path, brush);
+            }
+            else
+            {
+                QPen pen(Qt::darkGray,1);
+                QBrush brush(Qt::darkGray,Qt::Dense4Pattern);
+                painter->setPen(pen);
+                painter->setBrush(brush);
+                // Draw polygon with background
+                path.addPolygon(polygon());
+                painter->drawPolygon(polygon());
+                painter->fillPath(path, brush);
+            }
 
         }
     // QGraphicsPolygonItem::paint(painter,option,widget);
@@ -82,15 +95,22 @@ QString InheritedGraphicsPolygon::getToolTip()
     aux+=",y=";
     aux+=QString::number(pos_y,'g');
     aux+=");";
+    aux+="<br>";
+    aux+="Type: ";
+    aux+="Polygon";
+    aux+="<br>";
     myToolTip+=html_sized_text(aux,18);
     return myToolTip;
 }
 
 void InheritedGraphicsPolygon::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    Pressed = true;
-    update();
-    QGraphicsPolygonItem::mousePressEvent(event);
+    if (event->button() == Qt::LeftButton)
+    {
+        Pressed = true;
+        update();
+        QGraphicsPolygonItem::mousePressEvent(event);
+    }
 }
 
 void InheritedGraphicsPolygon::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
@@ -114,3 +134,12 @@ void InheritedGraphicsPolygon::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
     QGraphicsPolygonItem::hoverLeaveEvent(event);
 
 }
+
+void InheritedGraphicsPolygon::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+{
+//    dblClick=!dblClick;
+//   setFlag(ItemIsMovable,dblClick);
+//    update();
+    QGraphicsPolygonItem::mouseDoubleClickEvent(event);
+}
+

@@ -11,6 +11,7 @@ CONFIG += c++11
 SOURCES += \
     basic_use.cpp \
     customscene.cpp \
+    inheritedgraphicsellipse.cpp \
     inheritedgraphicspolygon.cpp \
     main.cpp \
     mainwindow.cpp
@@ -18,6 +19,7 @@ SOURCES += \
 HEADERS += \
     basic_use.h \
     customscene.h \
+    inheritedgraphicsellipse.h \
     inheritedgraphicspolygon.h \
     mainwindow.h
 

@@ -2,7 +2,7 @@
 
 CustomScene::CustomScene(QObject *parent) : QGraphicsScene(parent)
 {
-
+    setBackgroundBrush(QBrush(QColor(242,242,242)));
 }
 
 void CustomScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
@@ -10,22 +10,34 @@ void CustomScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
     if (mouseEvent->button() == Qt::LeftButton)
     {
-        QGraphicsItem *item = itemAt(mouseEvent->scenePos(), QTransform());// it is your clicked item, you can do everything what you want. for example send it somewhere
-        InheritedGraphicsPolygon *myItem = qgraphicsitem_cast<InheritedGraphicsPolygon *>(item);
-        if(myItem)
+        QGraphicsItem *item = itemAt(mouseEvent->scenePos(), QTransform());
+        if(!item)
         {
-            qDebug() << "is a polygon item" << mouseEvent->scenePos();
+            qDebug()<<"At that location there is nothing";
         }
         else
-            if(item)
+        {
+            InheritedGraphicsPolygon *polygonItem = qgraphicsitem_cast<InheritedGraphicsPolygon *>(item);
+            if(polygonItem)
             {
-                qDebug() << "NOT a polygon item...but other shape" << mouseEvent->scenePos();
+                qDebug() << "It is a polygon item";
             }
-        else
+            else
             {
-                qDebug()<<"Nothing";
+                InheritedGraphicsEllipse *ellipseItem = qgraphicsitem_cast<InheritedGraphicsEllipse *>(item);
+                if(ellipseItem)
+                {
+                    qDebug()<<"It is an ellipse";
+                }
             }
+        }
 
     }
     QGraphicsScene::mousePressEvent(mouseEvent);
+}
+
+void CustomScene::contextMenuEvent(QGraphicsSceneContextMenuEvent *contextMenuEvent)
+{
+    qDebug()<<"Menu event";
+    QGraphicsScene::contextMenuEvent(contextMenuEvent);
 }
