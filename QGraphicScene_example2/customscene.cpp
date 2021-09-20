@@ -13,21 +13,24 @@ void CustomScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
         QGraphicsItem *item = itemAt(mouseEvent->scenePos(), QTransform());
         if(!item)
         {
-            qDebug()<<"At that location there is nothing";
+             QString message="At that location there is nothing";
+             emit sceneMessage(message);
         }
         else
         {
             InheritedGraphicsPolygon *polygonItem = qgraphicsitem_cast<InheritedGraphicsPolygon *>(item);
             if(polygonItem)
             {
-                qDebug() << "It is a polygon item";
+                 QString message="It is a polygon item";
+                 emit sceneMessage(message);
             }
             else
             {
                 InheritedGraphicsEllipse *ellipseItem = qgraphicsitem_cast<InheritedGraphicsEllipse *>(item);
                 if(ellipseItem)
                 {
-                    qDebug()<<"It is an ellipse";
+                    QString message="It is an ellipse";
+                    emit sceneMessage(message);
                 }
             }
         }
@@ -38,6 +41,7 @@ void CustomScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
 void CustomScene::contextMenuEvent(QGraphicsSceneContextMenuEvent *contextMenuEvent)
 {
-    qDebug()<<"Menu event";
+     QString message="Menu event";
+     emit sceneMessage(message);
     QGraphicsScene::contextMenuEvent(contextMenuEvent);
 }

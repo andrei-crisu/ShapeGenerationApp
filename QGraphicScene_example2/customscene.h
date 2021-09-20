@@ -9,12 +9,16 @@
 
 class CustomScene : public QGraphicsScene
 {
+    Q_OBJECT
 public:
     explicit CustomScene(QObject *parent = nullptr);
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)override;
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *contextMenuEvent)override;
+
+signals:
+    void sceneMessage(QString str);
 };
 
 #endif // CUSTOMSCENE_H

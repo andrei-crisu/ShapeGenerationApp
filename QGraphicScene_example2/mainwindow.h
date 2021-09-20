@@ -24,12 +24,24 @@ private:
 private:
     Ui::MainWindow *ui;
     CustomScene *scene;
+
+signals:
+    void sentMessage(const QString string);
 public slots:
     void onTimer();
+    void showMessage(QString string);
 
 private slots:
     void on_splitter_splitterMoved(int pos, int index);
     void on_polygonButton_clicked();
     void on_ellipseButton_clicked();
+    void on_clearEllipseData_clicked();
+    void on_addEllipse_clicked();
+    void on_clearButton_clicked();
+    void on_zoomInButtton_clicked();
+    void on_zoomOutButton_clicked();
+    void on_zoomToFitButton_clicked();
+    void on_clearPolygonData_clicked();
+    void on_addPolygon_clicked();
 };
 #endif // MAINWINDOW_H
