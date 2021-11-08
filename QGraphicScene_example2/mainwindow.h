@@ -43,5 +43,6 @@ private slots:
     void on_zoomToFitButton_clicked();
     void on_clearPolygonData_clicked();
     void on_addPolygon_clicked();
+    void on_addRandomPolygon_clicked();
 };
 #endif // MAINWINDOW_H

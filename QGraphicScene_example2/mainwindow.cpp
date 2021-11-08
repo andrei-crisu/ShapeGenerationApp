@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include"basic_use.h"
+#include<QtAlgorithms>
+#include<QtMath>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -186,7 +188,7 @@ void MainWindow::on_addEllipse_clicked()
     }
 
     ui->statusbar->setStyleSheet("color: #112090;"
-                                  "font: 14pt; ");
+                                 "font: 14pt; ");
     ui->statusbar->showMessage("Added an ellipse with bounding rectangle:[ "+QString::number(x_pos)+", "
                                +QString::number(y_pos)+", "+QString::number(width)+", "
                                +QString::number(height)+" ];",10000);
@@ -199,7 +201,7 @@ void MainWindow::on_addEllipse_clicked()
 
 void MainWindow::on_clearButton_clicked()
 {
-   scene->clear();
+    scene->clear();
 }
 
 
@@ -241,14 +243,14 @@ void MainWindow::on_addPolygon_clicked()
     if(data_string.isEmpty())
     {
         ui->statusbar->setStyleSheet("color: #AA0000;"
-                                      "font: 14pt; ");
+                                     "font: 14pt; ");
         ui->statusbar->showMessage("Empty field: no data provided!",4000);
         return;
     }
     if(data_string.length()<4)
     {
         ui->statusbar->setStyleSheet("color: #AA0000;"
-                                      "font: 14pt; ");
+                                     "font: 14pt; ");
         ui->statusbar->showMessage("Data string loaded from file : too short [ wrong syntax ]",4000);
         return;
     }
@@ -262,7 +264,7 @@ void MainWindow::on_addPolygon_clicked()
         if(vertexToken.length()!=2)
         {
             ui->statusbar->setStyleSheet("color: #AA0000;"
-                                          "font: 14pt; ");
+                                         "font: 14pt; ");
             ui->statusbar->showMessage("Error: data provided contain mistakes!",4000);
             return;
         }
@@ -273,7 +275,7 @@ void MainWindow::on_addPolygon_clicked()
             if(x_string.isEmpty()||y_string.isEmpty())
             {
                 ui->statusbar->setStyleSheet("color: #AA0000;"
-                                              "font: 14pt; ");
+                                             "font: 14pt; ");
                 ui->statusbar->showMessage("Error at: "+verticiesList.at(i),4000);
                 return;
             }
@@ -282,7 +284,7 @@ void MainWindow::on_addPolygon_clicked()
             if(!ok)
             {
                 ui->statusbar->setStyleSheet("color: #AA0000;"
-                                              "font: 14pt; ");
+                                             "font: 14pt; ");
                 ui->statusbar->showMessage("Error: [ "+x_string+" ] contain mistakes;not a number !",4000);
                 return;
             }
@@ -292,7 +294,7 @@ void MainWindow::on_addPolygon_clicked()
             if(!ok)
             {
                 ui->statusbar->setStyleSheet("color: #AA0000;"
-                                              "font: 14pt; ");
+                                             "font: 14pt; ");
                 ui->statusbar->showMessage("Error: [ "+y_string+" ] contain mistakes;not a number !",4000);
                 return;
             }
@@ -302,7 +304,64 @@ void MainWindow::on_addPolygon_clicked()
 
     scene->addItem(new InheritedGraphicsPolygon(polygon));
     ui->statusbar->setStyleSheet("color: #112090;"
-                                  "font: 14pt; ");
+                                 "font: 14pt; ");
     ui->statusbar->showMessage("Polygon added!",4000);
+}
+
+
+void MainWindow::on_addRandomPolygon_clicked()
+{
+    //this code will generate a radom polygon at a random position
+    //where x is in [-300,300]
+    //and y is in [-300,300]
+    int nr=QRandomGenerator::global()->bounded(5,12);
+    int val;
+    bool duplicateFlag=false;
+    QList<int> firstList;
+    for(int i=1;i<=nr;i++)
+    {
+        val=QRandomGenerator::global()->bounded(0,360);
+        for(int i=0;i<firstList.length();i++)
+            if(val==firstList.at(i))
+            {
+                duplicateFlag=true;
+                break;
+            }
+            else
+            {
+                duplicateFlag=false;
+            }
+        if(!duplicateFlag)
+            firstList.append(val);
+    }
+    int aux;
+    //sorting list
+    for(int i=0;i<firstList.length()-1;i++)
+        for(int j=i+1;j<firstList.length();j++)
+            if(firstList.at(i)>firstList.at(j))
+            {
+                aux=firstList.at(i);
+                firstList.replace(i,firstList.at(j));
+                firstList.replace(j,aux);
+
+            }
+    nr=firstList.length();
+    QPolygonF polygon;
+    float x,y,r,xOrigin,yOrigin;
+    xOrigin=QRandomGenerator::global()->bounded(-300,301);
+    yOrigin=QRandomGenerator::global()->bounded(-300,301);
+    for(int i=0;i<nr;i++)
+    {
+        r=QRandomGenerator::global()->bounded(20,101);
+        val=firstList.at(i);
+        x=r*qCos(qDegreesToRadians(val));
+        y=r*qSin(qDegreesToRadians(val));
+        polygon.append(QPointF(xOrigin+x,yOrigin+y));
+    }
+    scene->addItem(new InheritedGraphicsPolygon(polygon));
+    ui->statusbar->setStyleSheet("color: #112090;"
+                                 "font: 14pt; ");
+    ui->statusbar->showMessage("Polygon random generated added!",4000);
+
 }
 
