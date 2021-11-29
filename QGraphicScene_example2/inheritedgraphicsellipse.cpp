@@ -23,7 +23,7 @@ void InheritedGraphicsEllipse::paint(QPainter *painter, const QStyleOptionGraphi
     if(Pressed)
     {
         QPen pen(Qt::darkGreen, 1);
-        QBrush brush(Qt::darkGreen,Qt::Dense4Pattern);
+        QBrush brush(Qt::green,Qt::SolidPattern);
         painter->setPen(pen);
         painter->setBrush(brush);
         // Draw polygon with background
@@ -35,7 +35,7 @@ void InheritedGraphicsEllipse::paint(QPainter *painter, const QStyleOptionGraphi
         if(isHovered)
         {
             QPen pen(Qt::darkYellow, 1);
-            QBrush brush(Qt::darkYellow,Qt::Dense4Pattern);
+            QBrush brush(Qt::yellow,Qt::SolidPattern);
             painter->setPen(pen);
             painter->setBrush(brush);
             // Draw polygon with background
@@ -45,10 +45,10 @@ void InheritedGraphicsEllipse::paint(QPainter *painter, const QStyleOptionGraphi
 
         }
         else
-        {   if(!scene()->collidingItems(this).isEmpty())
+        {   /*if(!scene()->collidingItems(this).isEmpty())
             {
                 QPen pen(Qt::darkRed,1);
-                QBrush brush(Qt::darkRed,Qt::Dense4Pattern);
+                QBrush brush(Qt::darkRed,Qt::SolidPattern);
                 painter->setPen(pen);
                 painter->setBrush(brush);
                 // Draw polygon with background
@@ -57,10 +57,10 @@ void InheritedGraphicsEllipse::paint(QPainter *painter, const QStyleOptionGraphi
                 painter->fillPath(path, brush);
 
             }
-            else
+            else*/
             {
             QPen pen(Qt::darkGray,1);
-            QBrush brush(Qt::darkGray,Qt::Dense4Pattern);
+            QBrush brush(Qt::gray,Qt::SolidPattern);
             painter->setPen(pen);
             painter->setBrush(brush);
             // Draw polygon with background
@@ -70,7 +70,6 @@ void InheritedGraphicsEllipse::paint(QPainter *painter, const QStyleOptionGraphi
             }
 
         }
-    //QGraphicsEllipseItem::paint(painter,option,widget);
 }
 
 QRectF InheritedGraphicsEllipse::boundingRect() const

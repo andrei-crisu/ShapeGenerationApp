@@ -13,25 +13,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->graphicsView->setScene(scene);
     connect(scene,&CustomScene::sceneMessage,this,&MainWindow::showMessage);
 
-
-    //
-    QPolygonF polygon;
-    polygon.append(QPointF(20,50));
-    polygon.append(QPointF(100,60));
-    polygon.append(QPointF(120,100));
-    polygon.append(QPointF(100,140));
-    polygon.append(QPointF(40,140));
-    polygon.append(QPointF(30,80));
-    polygon.append(QPointF(0,80));
-
-    QPolygonF polygon2;
-    polygon2.append(QPointF(-100,-100));
-    polygon2.append(QPointF(-50,-100));
-    polygon2.append(QPointF(-50,-20));
-    polygon2.append(QPointF(-100,-20));
-
-    scene->addItem(new InheritedGraphicsPolygon(polygon));
-    scene->addItem(new InheritedGraphicsPolygon(polygon2));
     QTimer timer(this);
     timer.singleShot(10,this,&MainWindow::onTimer);
 
@@ -72,18 +53,18 @@ void MainWindow::on_splitter_splitterMoved(int , int )
 }
 
 
-void MainWindow::on_polygonButton_clicked()
+void MainWindow::on_polygonButtonShape_clicked()
 {
-    ui->ellipseButton->setEnabled(true);
-    ui->polygonButton->setEnabled(false);
-    ui->stackedWidget_2->setCurrentIndex(1);
+    ui->ellipseButtonShape->setEnabled(true);
+    ui->polygonButtonShape->setEnabled(false);
+    ui->stackedWidget_2->setCurrentIndex(2);
 }
 
 
-void MainWindow::on_ellipseButton_clicked()
+void MainWindow::on_ellipseButtonShape_clicked()
 {
-    ui->ellipseButton->setEnabled(false);
-    ui->polygonButton->setEnabled(true);
+    ui->ellipseButtonShape->setEnabled(false);
+    ui->polygonButtonShape->setEnabled(true);
     ui->stackedWidget_2->setCurrentIndex(0);
 }
 
@@ -195,6 +176,7 @@ void MainWindow::on_addEllipse_clicked()
 
     QRectF rect(x_pos,y_pos,width,height);
     scene->addItem(new InheritedGraphicsEllipse(rect));
+    ui->graphicsView->fitInView(scene->sceneRect(),Qt::KeepAspectRatio);
 
 }
 
@@ -202,6 +184,7 @@ void MainWindow::on_addEllipse_clicked()
 void MainWindow::on_clearButton_clicked()
 {
     scene->clear();
+    ui->graphicsView->fitInView(QRectF(0,0,100,200),Qt::KeepAspectRatio);
 }
 
 
@@ -303,6 +286,7 @@ void MainWindow::on_addPolygon_clicked()
     }
 
     scene->addItem(new InheritedGraphicsPolygon(polygon));
+    ui->graphicsView->fitInView(scene->sceneRect(),Qt::KeepAspectRatio);
     ui->statusbar->setStyleSheet("color: #112090;"
                                  "font: 14pt; ");
     ui->statusbar->showMessage("Polygon added!",4000);
@@ -311,10 +295,55 @@ void MainWindow::on_addPolygon_clicked()
 
 void MainWindow::on_addRandomPolygon_clicked()
 {
-    //this code will generate a radom polygon at a random position
+    //this code will generate a random regular polygon:
+    //[at a random position,with a random number of vertices]
     //where x is in [-300,300]
     //and y is in [-300,300]
-    int nr=QRandomGenerator::global()->bounded(5,12);
+
+
+    //generate the number of vertices
+    int nr=QRandomGenerator::global()->bounded(3,18);
+    float angleStep;
+    angleStep=360/(float)nr;
+
+    float x,y,r,xOrigin,yOrigin,angleValue;
+    //generate radius of circumscribed circle
+    r=QRandomGenerator::global()->bounded(60,121);
+
+    //generate random center coordinates
+    QPolygonF polygon;
+    xOrigin=QRandomGenerator::global()->bounded(-300,301);
+    yOrigin=QRandomGenerator::global()->bounded(-300,301);
+    for(int i=0;i<nr;i++)
+    {
+        angleValue=i*angleStep;
+        x=r*qCos(qDegreesToRadians(angleValue));
+        y=r*qSin(qDegreesToRadians(angleValue));
+        polygon.append(QPointF(xOrigin+x,yOrigin+y));
+    }
+    scene->addItem(new InheritedGraphicsPolygon(polygon));
+    ui->graphicsView->fitInView(scene->sceneRect(),Qt::KeepAspectRatio);
+    ui->statusbar->setStyleSheet("color: #112090;"
+                                 "font: 14pt; ");
+    ui->statusbar->showMessage("RANDOM:: Regular polygon generated!",4000);
+
+}
+
+
+void MainWindow::on_addRandomIrregularPolygon_clicked()
+{
+    //this code will generate a random irregular polygon:
+    //[at a random position,with a random number of vertices]
+    //where x is in [-300,300]
+    //and y is in [-300,300]
+
+
+    //generate the number of vertices
+    //this may not be the final number of vertices
+    //duplicates angles will be deleted
+    //this will result in a smaller number of vertices in comparison
+    //with [nr] which was initially generated
+    int nr=QRandomGenerator::global()->bounded(8,24);
     int val;
     bool duplicateFlag=false;
     QList<int> firstList;
@@ -338,7 +367,7 @@ void MainWindow::on_addRandomPolygon_clicked()
     //sorting list
     for(int i=0;i<firstList.length()-1;i++)
         for(int j=i+1;j<firstList.length();j++)
-            if(firstList.at(i)>firstList.at(j))
+            if(firstList.at(i)<firstList.at(j))
             {
                 aux=firstList.at(i);
                 firstList.replace(i,firstList.at(j));
@@ -359,9 +388,30 @@ void MainWindow::on_addRandomPolygon_clicked()
         polygon.append(QPointF(xOrigin+x,yOrigin+y));
     }
     scene->addItem(new InheritedGraphicsPolygon(polygon));
+    ui->graphicsView->fitInView(scene->sceneRect(),Qt::KeepAspectRatio);
     ui->statusbar->setStyleSheet("color: #112090;"
                                  "font: 14pt; ");
-    ui->statusbar->showMessage("Polygon random generated added!",4000);
+    ui->statusbar->showMessage("RANDOM:: Irregular polygon generated!",4000);
 
+}
+
+
+
+void MainWindow::on_shapeDrawing_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(1);
+}
+
+
+void MainWindow::on_addRandomPolygon_2_clicked()
+{
+    //do nothing()
+    //just added to prevent a bug with moc file
+}
+
+
+void MainWindow::on_close_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(0);
 }
 

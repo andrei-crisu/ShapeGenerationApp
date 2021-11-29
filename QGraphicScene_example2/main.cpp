@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     //set app style sheet
-    QFile styleSheetFile("./stylesheets/Ubuntu.qss");
+    QFile styleSheetFile(":/stylesheets/stylesheets/Ubuntu.qss");
     styleSheetFile.open(QFile::ReadOnly);
     QString styleSheet=QLatin1String(styleSheetFile.readAll());
     a.setStyleSheet(styleSheet);
