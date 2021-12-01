@@ -32,7 +32,12 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
+    icon_files/help.png \
+    icon_files/home.png \
     icon_files/settings.png \
+    icon_files/shape.png \
+    icon_files/shapes_img.ico \
+    icon_files/shapes_img.png \
     stylesheets/AMOLED.qss \
     stylesheets/AMOLED.qss \
     stylesheets/Adaptic.png \

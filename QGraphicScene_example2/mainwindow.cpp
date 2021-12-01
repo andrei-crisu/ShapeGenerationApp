@@ -3,6 +3,7 @@
 #include"basic_use.h"
 #include<QtAlgorithms>
 #include<QtMath>
+#include<QAction>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -56,16 +57,24 @@ void MainWindow::on_splitter_splitterMoved(int , int )
 void MainWindow::on_polygonButtonShape_clicked()
 {
     ui->ellipseButtonShape->setEnabled(true);
+    ui->randomStar->setEnabled(true);
+    ui->rectangle->setEnabled(true);
+    ui->triangle->setEnabled(true);
+    ui->other->setEnabled(true);
     ui->polygonButtonShape->setEnabled(false);
-    ui->stackedWidget_2->setCurrentIndex(2);
+    ui->stackedWidget_2->setCurrentIndex(0);
 }
 
 
 void MainWindow::on_ellipseButtonShape_clicked()
 {
     ui->ellipseButtonShape->setEnabled(false);
+    ui->randomStar->setEnabled(true);
+    ui->rectangle->setEnabled(true);
+    ui->triangle->setEnabled(true);
+    ui->other->setEnabled(true);
     ui->polygonButtonShape->setEnabled(true);
-    ui->stackedWidget_2->setCurrentIndex(0);
+    ui->stackedWidget_2->setCurrentIndex(1);
 }
 
 
@@ -184,7 +193,7 @@ void MainWindow::on_addEllipse_clicked()
 void MainWindow::on_clearButton_clicked()
 {
     scene->clear();
-    ui->graphicsView->fitInView(QRectF(0,0,100,200),Qt::KeepAspectRatio);
+    ui->graphicsView->fitInView(scene->itemsBoundingRect(),Qt::KeepAspectRatio);
 }
 
 
@@ -403,15 +412,167 @@ void MainWindow::on_shapeDrawing_clicked()
 }
 
 
+//add a star to the scene //-----------------------
 void MainWindow::on_addRandomPolygon_2_clicked()
 {
-    //do nothing()
-    //just added to prevent a bug with moc file
+    //name for this slot it is a garbage.
+    //it was kept because of sort of bug
+    //after a widget was deleted from mainwindow.ui
+    // the [moc file] still keep the slot name for that component
+    //I decided to keep the name for this slot as is
+    //just to prevent a bug with moc file
+
+    //the code from this slot( function)
+    //add a star to the scene
+
+    float x,y,longRadius,shortRadius,xOrigin,yOrigin;
+    float angleValue,angleStep;
+    int verticesNumber;
+    //generate radius of circumscribed circle
+    longRadius=QRandomGenerator::global()->bounded(60,121);
+    verticesNumber=ui->verticesStarSlider->value();
+    angleStep=360.0/(((float)verticesNumber)*2.0);
+
+    //generte short radius properly
+    //---------------------------------------
+    float xSample1,ySample1,xSample2,ySample2;
+    xSample1=longRadius*qCos(qDegreesToRadians(0));
+    ySample1=longRadius*qSin(qDegreesToRadians(0));
+    xSample2=longRadius*qCos(qDegreesToRadians(2*angleStep));
+    ySample2=longRadius*qSin(qDegreesToRadians(2*angleStep));
+
+    //calculate distance from a poin to the line (shortRadius)
+    //the line is determined through points P1(xSample1,ySample1) and P2(xSample2,ySample2)
+    //distance from P1 to P2
+    float distanceSample=qSqrt(qPow(xSample2-xSample1,2)+qPow(ySample2-ySample1,2));
+    shortRadius=qFabs((xSample2-xSample1)*ySample1-(ySample2-ySample1)*xSample1);
+    shortRadius=shortRadius/distanceSample;
+    shortRadius=shortRadius*((100-ui->depthStarSlider->value())/100.0);
+    //---------------------------------------
+
+    //just as reminder
+    //---------------------------------------
+    /*  generate short radius,but  not prorerly
+    in some cases generated stars will be ugly
+    shortRadius=longRadius*((100-ui->depthStarSlider->value())/100.0);*/
+    //---------------------------------------
+
+
+    //generate random center coordinates
+    QPolygonF polygon;
+    xOrigin=QRandomGenerator::global()->bounded(-300,301);
+    yOrigin=QRandomGenerator::global()->bounded(-300,301);
+    for(int i=0;i<2*verticesNumber;i++)
+    {
+        angleValue=i*angleStep;
+        if(i%2==0)
+        {
+            x=longRadius*qCos(qDegreesToRadians(angleValue));
+            y=longRadius*qSin(qDegreesToRadians(angleValue));
+        }
+        else
+        {
+            x=shortRadius*qCos(qDegreesToRadians(angleValue));
+            y=shortRadius*qSin(qDegreesToRadians(angleValue));
+        }
+        polygon.append(QPointF(xOrigin+x,yOrigin+y));
+    }
+    scene->addItem(new InheritedGraphicsPolygon(polygon));
+    ui->graphicsView->fitInView(scene->sceneRect(),Qt::KeepAspectRatio);
+    ui->statusbar->setStyleSheet("color: #112090;"
+                                 "font: 14pt; ");
+    ui->statusbar->showMessage("Star polygon generated!",4000);
+
+
 }
 
 
 void MainWindow::on_close_clicked()
 {
     ui->stackedWidget->setCurrentIndex(0);
+}
+
+
+void MainWindow::on_randomStar_clicked()
+{
+    ui->ellipseButtonShape->setEnabled(true);
+    ui->randomStar->setEnabled(false);
+    ui->rectangle->setEnabled(true);
+    ui->triangle->setEnabled(true);
+    ui->other->setEnabled(true);
+    ui->polygonButtonShape->setEnabled(true);
+    ui->stackedWidget_2->setCurrentIndex(2);
+}
+
+
+void MainWindow::on_triangle_clicked()
+{
+    ui->ellipseButtonShape->setEnabled(true);
+    ui->randomStar->setEnabled(true);
+    ui->rectangle->setEnabled(true);
+    ui->triangle->setEnabled(false);
+    ui->other->setEnabled(true);
+    ui->polygonButtonShape->setEnabled(true);
+    ui->stackedWidget_2->setCurrentIndex(3);
+}
+
+
+void MainWindow::on_rectangle_clicked()
+{
+    ui->ellipseButtonShape->setEnabled(true);
+    ui->randomStar->setEnabled(true);
+    ui->rectangle->setEnabled(false);
+    ui->triangle->setEnabled(true);
+    ui->other->setEnabled(true);
+    ui->polygonButtonShape->setEnabled(true);
+    ui->stackedWidget_2->setCurrentIndex(4);
+}
+
+
+void MainWindow::on_other_clicked()
+{
+    ui->ellipseButtonShape->setEnabled(true);
+    ui->randomStar->setEnabled(true);
+    ui->rectangle->setEnabled(true);
+    ui->triangle->setEnabled(true);
+    ui->other->setEnabled(false);
+    ui->polygonButtonShape->setEnabled(true);
+    ui->stackedWidget_2->setCurrentIndex(5);
+}
+
+
+void MainWindow::on_depthStarSlider_valueChanged(int value)
+{
+    ui->lineEditDepth->setText(QString::number(value)+" %");
+}
+
+
+void MainWindow::on_verticesStarSlider_valueChanged(int value)
+{
+    ui->lineEditVertices->setText(QString::number(value));
+}
+
+
+void MainWindow::on_appedTriangle_clicked()
+{
+
+}
+
+
+void MainWindow::on_home_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(0);
+}
+
+
+void MainWindow::on_help_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
+
+void MainWindow::on_aboutQt_clicked()
+{
+    QApplication::aboutQt();
 }
 

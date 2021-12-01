@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include<QGraphicsScene>
 #include"customscene.h"
+#include<QtMath>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -48,5 +49,15 @@ private slots:
     void on_addRandomPolygon_2_clicked();
     void on_shapeDrawing_clicked();
     void on_close_clicked();
+    void on_randomStar_clicked();
+    void on_triangle_clicked();
+    void on_rectangle_clicked();
+    void on_other_clicked();
+    void on_depthStarSlider_valueChanged(int value);
+    void on_verticesStarSlider_valueChanged(int value);
+    void on_appedTriangle_clicked();
+    void on_home_clicked();
+    void on_help_clicked();
+    void on_aboutQt_clicked();
 };
 #endif // MAINWINDOW_H
