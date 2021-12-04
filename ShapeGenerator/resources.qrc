@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/stylesheets">
+        <file>stylesheets/Ubuntu.qss</file>
+        <file>stylesheets/Perstfic.qss</file>
+    </qresource>
+</RCC>
