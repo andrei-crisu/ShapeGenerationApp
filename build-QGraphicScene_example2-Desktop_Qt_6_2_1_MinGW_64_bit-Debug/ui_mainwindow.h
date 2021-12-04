@@ -21,6 +21,7 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QRadioButton>
 #include <QtWidgets/QSlider>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QSplitter>
@@ -129,7 +130,40 @@ public:
     QSpacerItem *horizontalSpacer_11;
     QSpacerItem *verticalSpacer_8;
     QWidget *page4;
+    QVBoxLayout *verticalLayout_11;
+    QGroupBox *groupBox_5;
+    QHBoxLayout *horizontalLayout_16;
+    QFormLayout *formLayout_3;
+    QLabel *label_8;
+    QLineEdit *x_pos_lineEdit_2;
+    QLabel *label_9;
+    QLineEdit *y_pos_lineEdit_2;
+    QSpacerItem *horizontalSpacer_16;
+    QGroupBox *groupBox_6;
+    QHBoxLayout *horizontalLayout_17;
+    QFormLayout *formLayout_4;
+    QLabel *label_10;
+    QLineEdit *x_pos_lineEdit_3;
+    QLabel *label_11;
+    QLineEdit *y_pos_lineEdit_3;
+    QSpacerItem *horizontalSpacer_17;
+    QGroupBox *groupBox_7;
+    QHBoxLayout *horizontalLayout_18;
+    QFormLayout *formLayout_5;
+    QLabel *label_12;
+    QLineEdit *x_pos_lineEdit_4;
+    QLabel *label_13;
+    QLineEdit *y_pos_lineEdit_4;
+    QSpacerItem *horizontalSpacer_18;
+    QVBoxLayout *verticalLayout_10;
+    QRadioButton *radioButton;
+    QRadioButton *radioButton_2;
+    QRadioButton *radioButton_3;
+    QRadioButton *radioButton_4;
+    QHBoxLayout *horizontalLayout_15;
+    QSpacerItem *horizontalSpacer_14;
     QPushButton *appedTriangle;
+    QSpacerItem *horizontalSpacer_15;
     QWidget *page5;
     QWidget *page6;
     QStackedWidget *stackedWidget_3;
@@ -147,6 +181,8 @@ public:
     QWidget *helpPage;
     QPushButton *home;
     QPushButton *aboutQt;
+    QWidget *page;
+    QPushButton *home_2;
     QStatusBar *statusbar;
     QMenuBar *menuBar;
 
@@ -156,6 +192,10 @@ public:
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
         MainWindow->resize(774, 500);
         MainWindow->setMinimumSize(QSize(720, 500));
+        QIcon icon;
+        icon.addFile(QString::fromUtf8(":/app_icons/icon_files/shapes_img.ico"), QSize(), QIcon::Normal, QIcon::On);
+        MainWindow->setWindowIcon(icon);
+        MainWindow->setIconSize(QSize(36, 36));
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         horizontalLayout_3 = new QHBoxLayout(centralwidget);
@@ -188,9 +228,9 @@ public:
         shapeDrawing->setSizePolicy(sizePolicy);
         shapeDrawing->setMinimumSize(QSize(200, 200));
         shapeDrawing->setMaximumSize(QSize(300, 300));
-        QIcon icon;
-        icon.addFile(QString::fromUtf8(":/app_icons/icon_files/shape.png"), QSize(), QIcon::Normal, QIcon::On);
-        shapeDrawing->setIcon(icon);
+        QIcon icon1;
+        icon1.addFile(QString::fromUtf8(":/app_icons/icon_files/shape.png"), QSize(), QIcon::Normal, QIcon::On);
+        shapeDrawing->setIcon(icon1);
         shapeDrawing->setIconSize(QSize(132, 132));
 
         horizontalLayout_9->addWidget(shapeDrawing);
@@ -201,9 +241,9 @@ public:
         help->setSizePolicy(sizePolicy);
         help->setMinimumSize(QSize(200, 200));
         help->setMaximumSize(QSize(300, 300));
-        QIcon icon1;
-        icon1.addFile(QString::fromUtf8(":/app_icons/icon_files/help.png"), QSize(), QIcon::Normal, QIcon::On);
-        help->setIcon(icon1);
+        QIcon icon2;
+        icon2.addFile(QString::fromUtf8(":/app_icons/icon_files/help.png"), QSize(), QIcon::Normal, QIcon::On);
+        help->setIcon(icon2);
         help->setIconSize(QSize(128, 128));
 
         horizontalLayout_9->addWidget(help);
@@ -214,9 +254,9 @@ public:
         settings->setSizePolicy(sizePolicy);
         settings->setMinimumSize(QSize(200, 200));
         settings->setMaximumSize(QSize(300, 300));
-        QIcon icon2;
-        icon2.addFile(QString::fromUtf8(":/app_icons/icon_files/settings.png"), QSize(), QIcon::Normal, QIcon::On);
-        settings->setIcon(icon2);
+        QIcon icon3;
+        icon3.addFile(QString::fromUtf8(":/app_icons/icon_files/settings.png"), QSize(), QIcon::Normal, QIcon::On);
+        settings->setIcon(icon3);
         settings->setIconSize(QSize(132, 132));
 
         horizontalLayout_9->addWidget(settings);
@@ -301,9 +341,9 @@ public:
         close->setObjectName(QString::fromUtf8("close"));
         close->setEnabled(true);
         close->setMinimumSize(QSize(80, 22));
-        QIcon icon3;
-        icon3.addFile(QString::fromUtf8(":/app_icons/icon_files/home.png"), QSize(), QIcon::Normal, QIcon::On);
-        close->setIcon(icon3);
+        QIcon icon4;
+        icon4.addFile(QString::fromUtf8(":/app_icons/icon_files/home.png"), QSize(), QIcon::Normal, QIcon::On);
+        close->setIcon(icon4);
 
         horizontalLayout_10->addWidget(close);
 
@@ -701,11 +741,204 @@ public:
         stackedWidget_2->addWidget(page3);
         page4 = new QWidget();
         page4->setObjectName(QString::fromUtf8("page4"));
+        verticalLayout_11 = new QVBoxLayout(page4);
+        verticalLayout_11->setSpacing(2);
+        verticalLayout_11->setObjectName(QString::fromUtf8("verticalLayout_11"));
+        verticalLayout_11->setContentsMargins(4, 4, 4, 4);
+        groupBox_5 = new QGroupBox(page4);
+        groupBox_5->setObjectName(QString::fromUtf8("groupBox_5"));
+        groupBox_5->setFont(font);
+        horizontalLayout_16 = new QHBoxLayout(groupBox_5);
+        horizontalLayout_16->setSpacing(2);
+        horizontalLayout_16->setObjectName(QString::fromUtf8("horizontalLayout_16"));
+        horizontalLayout_16->setContentsMargins(2, 2, 2, 2);
+        formLayout_3 = new QFormLayout();
+        formLayout_3->setObjectName(QString::fromUtf8("formLayout_3"));
+        formLayout_3->setHorizontalSpacing(2);
+        label_8 = new QLabel(groupBox_5);
+        label_8->setObjectName(QString::fromUtf8("label_8"));
+        label_8->setMinimumSize(QSize(14, 20));
+        label_8->setMaximumSize(QSize(14, 20));
+        label_8->setFont(font);
+
+        formLayout_3->setWidget(0, QFormLayout::LabelRole, label_8);
+
+        x_pos_lineEdit_2 = new QLineEdit(groupBox_5);
+        x_pos_lineEdit_2->setObjectName(QString::fromUtf8("x_pos_lineEdit_2"));
+        x_pos_lineEdit_2->setInputMethodHints(Qt::ImhNone);
+
+        formLayout_3->setWidget(0, QFormLayout::FieldRole, x_pos_lineEdit_2);
+
+        label_9 = new QLabel(groupBox_5);
+        label_9->setObjectName(QString::fromUtf8("label_9"));
+        label_9->setMinimumSize(QSize(14, 20));
+        label_9->setMaximumSize(QSize(14, 20));
+        label_9->setFont(font);
+
+        formLayout_3->setWidget(1, QFormLayout::LabelRole, label_9);
+
+        y_pos_lineEdit_2 = new QLineEdit(groupBox_5);
+        y_pos_lineEdit_2->setObjectName(QString::fromUtf8("y_pos_lineEdit_2"));
+        y_pos_lineEdit_2->setInputMethodHints(Qt::ImhNone);
+
+        formLayout_3->setWidget(1, QFormLayout::FieldRole, y_pos_lineEdit_2);
+
+
+        horizontalLayout_16->addLayout(formLayout_3);
+
+        horizontalSpacer_16 = new QSpacerItem(80, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_16->addItem(horizontalSpacer_16);
+
+
+        verticalLayout_11->addWidget(groupBox_5);
+
+        groupBox_6 = new QGroupBox(page4);
+        groupBox_6->setObjectName(QString::fromUtf8("groupBox_6"));
+        groupBox_6->setFont(font);
+        horizontalLayout_17 = new QHBoxLayout(groupBox_6);
+        horizontalLayout_17->setSpacing(2);
+        horizontalLayout_17->setObjectName(QString::fromUtf8("horizontalLayout_17"));
+        horizontalLayout_17->setContentsMargins(2, 2, 2, 2);
+        formLayout_4 = new QFormLayout();
+        formLayout_4->setObjectName(QString::fromUtf8("formLayout_4"));
+        formLayout_4->setHorizontalSpacing(2);
+        label_10 = new QLabel(groupBox_6);
+        label_10->setObjectName(QString::fromUtf8("label_10"));
+        label_10->setMinimumSize(QSize(14, 20));
+        label_10->setMaximumSize(QSize(14, 20));
+        label_10->setFont(font);
+
+        formLayout_4->setWidget(0, QFormLayout::LabelRole, label_10);
+
+        x_pos_lineEdit_3 = new QLineEdit(groupBox_6);
+        x_pos_lineEdit_3->setObjectName(QString::fromUtf8("x_pos_lineEdit_3"));
+        x_pos_lineEdit_3->setInputMethodHints(Qt::ImhNone);
+
+        formLayout_4->setWidget(0, QFormLayout::FieldRole, x_pos_lineEdit_3);
+
+        label_11 = new QLabel(groupBox_6);
+        label_11->setObjectName(QString::fromUtf8("label_11"));
+        label_11->setMinimumSize(QSize(14, 20));
+        label_11->setMaximumSize(QSize(14, 20));
+        label_11->setFont(font);
+
+        formLayout_4->setWidget(1, QFormLayout::LabelRole, label_11);
+
+        y_pos_lineEdit_3 = new QLineEdit(groupBox_6);
+        y_pos_lineEdit_3->setObjectName(QString::fromUtf8("y_pos_lineEdit_3"));
+        y_pos_lineEdit_3->setInputMethodHints(Qt::ImhNone);
+
+        formLayout_4->setWidget(1, QFormLayout::FieldRole, y_pos_lineEdit_3);
+
+
+        horizontalLayout_17->addLayout(formLayout_4);
+
+        horizontalSpacer_17 = new QSpacerItem(80, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_17->addItem(horizontalSpacer_17);
+
+
+        verticalLayout_11->addWidget(groupBox_6);
+
+        groupBox_7 = new QGroupBox(page4);
+        groupBox_7->setObjectName(QString::fromUtf8("groupBox_7"));
+        groupBox_7->setFont(font);
+        horizontalLayout_18 = new QHBoxLayout(groupBox_7);
+        horizontalLayout_18->setSpacing(2);
+        horizontalLayout_18->setObjectName(QString::fromUtf8("horizontalLayout_18"));
+        horizontalLayout_18->setContentsMargins(2, 2, 2, 2);
+        formLayout_5 = new QFormLayout();
+        formLayout_5->setObjectName(QString::fromUtf8("formLayout_5"));
+        formLayout_5->setHorizontalSpacing(2);
+        label_12 = new QLabel(groupBox_7);
+        label_12->setObjectName(QString::fromUtf8("label_12"));
+        label_12->setMinimumSize(QSize(14, 20));
+        label_12->setMaximumSize(QSize(14, 20));
+        label_12->setFont(font);
+
+        formLayout_5->setWidget(0, QFormLayout::LabelRole, label_12);
+
+        x_pos_lineEdit_4 = new QLineEdit(groupBox_7);
+        x_pos_lineEdit_4->setObjectName(QString::fromUtf8("x_pos_lineEdit_4"));
+        x_pos_lineEdit_4->setInputMethodHints(Qt::ImhNone);
+
+        formLayout_5->setWidget(0, QFormLayout::FieldRole, x_pos_lineEdit_4);
+
+        label_13 = new QLabel(groupBox_7);
+        label_13->setObjectName(QString::fromUtf8("label_13"));
+        label_13->setMinimumSize(QSize(14, 20));
+        label_13->setMaximumSize(QSize(14, 20));
+        label_13->setFont(font);
+
+        formLayout_5->setWidget(1, QFormLayout::LabelRole, label_13);
+
+        y_pos_lineEdit_4 = new QLineEdit(groupBox_7);
+        y_pos_lineEdit_4->setObjectName(QString::fromUtf8("y_pos_lineEdit_4"));
+        y_pos_lineEdit_4->setInputMethodHints(Qt::ImhNone);
+
+        formLayout_5->setWidget(1, QFormLayout::FieldRole, y_pos_lineEdit_4);
+
+
+        horizontalLayout_18->addLayout(formLayout_5);
+
+        horizontalSpacer_18 = new QSpacerItem(80, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_18->addItem(horizontalSpacer_18);
+
+
+        verticalLayout_11->addWidget(groupBox_7);
+
+        verticalLayout_10 = new QVBoxLayout();
+        verticalLayout_10->setSpacing(2);
+        verticalLayout_10->setObjectName(QString::fromUtf8("verticalLayout_10"));
+        radioButton = new QRadioButton(page4);
+        radioButton->setObjectName(QString::fromUtf8("radioButton"));
+
+        verticalLayout_10->addWidget(radioButton);
+
+        radioButton_2 = new QRadioButton(page4);
+        radioButton_2->setObjectName(QString::fromUtf8("radioButton_2"));
+
+        verticalLayout_10->addWidget(radioButton_2);
+
+        radioButton_3 = new QRadioButton(page4);
+        radioButton_3->setObjectName(QString::fromUtf8("radioButton_3"));
+        radioButton_3->setChecked(false);
+
+        verticalLayout_10->addWidget(radioButton_3);
+
+        radioButton_4 = new QRadioButton(page4);
+        radioButton_4->setObjectName(QString::fromUtf8("radioButton_4"));
+        radioButton_4->setChecked(true);
+
+        verticalLayout_10->addWidget(radioButton_4);
+
+        horizontalLayout_15 = new QHBoxLayout();
+        horizontalLayout_15->setSpacing(2);
+        horizontalLayout_15->setObjectName(QString::fromUtf8("horizontalLayout_15"));
+        horizontalSpacer_14 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_15->addItem(horizontalSpacer_14);
+
         appedTriangle = new QPushButton(page4);
         appedTriangle->setObjectName(QString::fromUtf8("appedTriangle"));
         appedTriangle->setEnabled(true);
-        appedTriangle->setGeometry(QRect(60, 120, 80, 22));
-        appedTriangle->setMinimumSize(QSize(80, 22));
+        appedTriangle->setMinimumSize(QSize(90, 22));
+        appedTriangle->setMaximumSize(QSize(100, 16777215));
+
+        horizontalLayout_15->addWidget(appedTriangle);
+
+        horizontalSpacer_15 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_15->addItem(horizontalSpacer_15);
+
+
+        verticalLayout_10->addLayout(horizontalLayout_15);
+
+
+        verticalLayout_11->addLayout(verticalLayout_10);
+
         stackedWidget_2->addWidget(page4);
         page5 = new QWidget();
         page5->setObjectName(QString::fromUtf8("page5"));
@@ -791,13 +1024,22 @@ public:
         home->setEnabled(true);
         home->setGeometry(QRect(500, 70, 80, 24));
         home->setMinimumSize(QSize(80, 22));
-        home->setIcon(icon3);
+        home->setIcon(icon4);
         aboutQt = new QPushButton(helpPage);
         aboutQt->setObjectName(QString::fromUtf8("aboutQt"));
         aboutQt->setEnabled(true);
         aboutQt->setGeometry(QRect(250, 80, 80, 22));
         aboutQt->setMinimumSize(QSize(80, 22));
         stackedWidget->addWidget(helpPage);
+        page = new QWidget();
+        page->setObjectName(QString::fromUtf8("page"));
+        home_2 = new QPushButton(page);
+        home_2->setObjectName(QString::fromUtf8("home_2"));
+        home_2->setEnabled(true);
+        home_2->setGeometry(QRect(350, 100, 80, 24));
+        home_2->setMinimumSize(QSize(80, 22));
+        home_2->setIcon(icon4);
+        stackedWidget->addWidget(page);
 
         horizontalLayout_3->addWidget(stackedWidget);
 
@@ -812,7 +1054,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        stackedWidget->setCurrentIndex(0);
+        stackedWidget->setCurrentIndex(1);
         stackedWidget_2->setCurrentIndex(3);
         stackedWidget_3->setCurrentIndex(0);
 
@@ -886,6 +1128,22 @@ public:
         lineEditVertices->setText(QCoreApplication::translate("MainWindow", "3", nullptr));
         label_7->setText(QCoreApplication::translate("MainWindow", "     (Prominent ones)", nullptr));
         addRandomPolygon_2->setText(QCoreApplication::translate("MainWindow", "Draw star", nullptr));
+        groupBox_5->setTitle(QCoreApplication::translate("MainWindow", "Vertex1", nullptr));
+        label_8->setText(QCoreApplication::translate("MainWindow", "X:", nullptr));
+        label_9->setText(QCoreApplication::translate("MainWindow", "Y:", nullptr));
+        groupBox_6->setTitle(QCoreApplication::translate("MainWindow", "Vertex2", nullptr));
+        label_10->setText(QCoreApplication::translate("MainWindow", "X:", nullptr));
+        label_11->setText(QCoreApplication::translate("MainWindow", "Y:", nullptr));
+        groupBox_7->setTitle(QCoreApplication::translate("MainWindow", "Vertex3", nullptr));
+        label_12->setText(QCoreApplication::translate("MainWindow", "X:", nullptr));
+        label_13->setText(QCoreApplication::translate("MainWindow", "Y:", nullptr));
+        radioButton->setText(QCoreApplication::translate("MainWindow", "Scalene Triangle", nullptr));
+        radioButton_2->setText(QCoreApplication::translate("MainWindow", "Isosceles Triangle", nullptr));
+        radioButton_3->setText(QCoreApplication::translate("MainWindow", "Equilateral triangle", nullptr));
+        radioButton_4->setText(QCoreApplication::translate("MainWindow", "Not random", nullptr));
+#if QT_CONFIG(tooltip)
+        appedTriangle->setToolTip(QCoreApplication::translate("MainWindow", "<html><head/><body><p>generate random triangle based on selected type or generate it  based on given points</p><p><br/></p></body></html>", nullptr));
+#endif // QT_CONFIG(tooltip)
         appedTriangle->setText(QCoreApplication::translate("MainWindow", "Add Triangle", nullptr));
         groupBox->setTitle(QString());
         zoomInButtton->setText(QCoreApplication::translate("MainWindow", "Zoom in", nullptr));
@@ -897,6 +1155,10 @@ public:
 #endif // QT_CONFIG(tooltip)
         home->setText(QCoreApplication::translate("MainWindow", "Home", nullptr));
         aboutQt->setText(QCoreApplication::translate("MainWindow", "Qt", nullptr));
+#if QT_CONFIG(tooltip)
+        home_2->setToolTip(QCoreApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:10pt;\">Home</span></p></body></html>", nullptr));
+#endif // QT_CONFIG(tooltip)
+        home_2->setText(QCoreApplication::translate("MainWindow", "Home", nullptr));
     } // retranslateUi
 
 };

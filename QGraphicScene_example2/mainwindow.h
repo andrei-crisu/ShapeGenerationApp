@@ -59,5 +59,7 @@ private slots:
     void on_home_clicked();
     void on_help_clicked();
     void on_aboutQt_clicked();
+    void on_home_2_clicked();
+    void on_settings_clicked();
 };
 #endif // MAINWINDOW_H

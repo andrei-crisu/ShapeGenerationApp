@@ -185,6 +185,14 @@ void MainWindow::on_addEllipse_clicked()
 
     QRectF rect(x_pos,y_pos,width,height);
     scene->addItem(new InheritedGraphicsEllipse(rect));
+    //this will be for path with holes inside
+//    QPainterPath path,path2;
+//    path2.addEllipse(QRectF(x_pos+50,y_pos+50,100,100));
+//    path.addEllipse(QRectF(x_pos,y_pos,200,200));
+//    path=path.subtracted(path2);
+//    path.setFillRule(Qt::FillRule::OddEvenFill);
+//    scene->addPath(path,QPen(),QBrush(Qt::cyan,Qt::BrushStyle::SolidPattern));
+
     ui->graphicsView->fitInView(scene->sceneRect(),Qt::KeepAspectRatio);
 
 }
@@ -574,5 +582,17 @@ void MainWindow::on_help_clicked()
 void MainWindow::on_aboutQt_clicked()
 {
     QApplication::aboutQt();
+}
+
+
+void MainWindow::on_home_2_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(0);
+}
+
+
+void MainWindow::on_settings_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(3);
 }
 

@@ -4,5 +4,7 @@
         <file>icon_files/help.png</file>
         <file>icon_files/home.png</file>
         <file>icon_files/shape.png</file>
+        <file>icon_files/shapes_img.ico</file>
+        <file>icon_files/shapes_img.png</file>
     </qresource>
 </RCC>
