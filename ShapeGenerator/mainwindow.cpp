@@ -35,6 +35,83 @@ void MainWindow::closeEvent(QCloseEvent *event)
     QMainWindow::closeEvent(event);
 }
 
+//this function draws a custom triangle( vertices are given)
+void MainWindow::drawCustomTriangle()
+{
+
+}
+
+//this function draws an equilateral triangle
+void MainWindow::drawEquilateralTriangle()
+{
+
+}
+
+//this function draws an isosceles triangle
+void MainWindow::drawIsocscelesTriangle()
+{
+
+}
+
+//this function draws a scalene triangle
+//(this means that the triangle sides have different lengths)
+void MainWindow::drawScaleneTriangle()
+{
+    //the shape is a traingle (there are 3 vertices)
+    int nr=3;
+    float x,y,r,xOrigin,yOrigin;
+
+    //generate radius of circumscribed circle
+    r=QRandomGenerator::global()->bounded(60,121);
+    int val;
+    bool duplicateFlag=false;
+    QList<int> firstList;
+    for(int i=1;i<=nr;i++)
+    {
+        val=QRandomGenerator::global()->bounded(0,360);
+        for(int i=0;i<firstList.length();i++)
+            if(val==firstList.at(i))
+            {
+                duplicateFlag=true;
+                break;
+            }
+            else
+            {
+                duplicateFlag=false;
+            }
+        if(!duplicateFlag)
+            firstList.append(val);
+    }
+    int aux;
+    //sorting list
+    for(int i=0;i<firstList.length()-1;i++)
+        for(int j=i+1;j<firstList.length();j++)
+            if(firstList.at(i)<firstList.at(j))
+            {
+                aux=firstList.at(i);
+                firstList.replace(i,firstList.at(j));
+                firstList.replace(j,aux);
+
+            }
+    nr=firstList.length();
+    QPolygonF polygon;
+    //origin of circumscribed circle
+    xOrigin=QRandomGenerator::global()->bounded(-300,301);
+    yOrigin=QRandomGenerator::global()->bounded(-300,301);
+    for(int i=0;i<nr;i++)
+    {
+        val=firstList.at(i);
+        x=r*qCos(qDegreesToRadians(val));
+        y=r*qSin(qDegreesToRadians(val));
+        polygon.append(QPointF(xOrigin+x,yOrigin+y));
+    }
+    scene->addItem(new InheritedGraphicsPolygon(polygon));
+    ui->graphicsView->fitInView(scene->sceneRect(),Qt::KeepAspectRatio);
+    ui->statusbar->setStyleSheet("color: #112090;"
+                                 "font: 14pt; ");
+    ui->statusbar->showMessage("RANDOM:: Scalene triangle generated!",4000);
+}
+
 void MainWindow::onTimer()
 {
     ui->graphicsView->fitInView(scene->sceneRect(),Qt::KeepAspectRatio);
@@ -186,12 +263,12 @@ void MainWindow::on_addEllipse_clicked()
     QRectF rect(x_pos,y_pos,width,height);
     scene->addItem(new InheritedGraphicsEllipse(rect));
     //this will be for path with holes inside
-//    QPainterPath path,path2;
-//    path2.addEllipse(QRectF(x_pos+50,y_pos+50,100,100));
-//    path.addEllipse(QRectF(x_pos,y_pos,200,200));
-//    path=path.subtracted(path2);
-//    path.setFillRule(Qt::FillRule::OddEvenFill);
-//    scene->addPath(path,QPen(),QBrush(Qt::cyan,Qt::BrushStyle::SolidPattern));
+    //    QPainterPath path,path2;
+    //    path2.addEllipse(QRectF(x_pos+50,y_pos+50,100,100));
+    //    path.addEllipse(QRectF(x_pos,y_pos,200,200));
+    //    path=path.subtracted(path2);
+    //    path.setFillRule(Qt::FillRule::OddEvenFill);
+    //    scene->addPath(path,QPen(),QBrush(Qt::cyan,Qt::BrushStyle::SolidPattern));
 
     ui->graphicsView->fitInView(scene->sceneRect(),Qt::KeepAspectRatio);
 
@@ -225,7 +302,7 @@ void MainWindow::on_zoomToFitButton_clicked()
 
 void MainWindow::on_clearPolygonData_clicked()
 {
-
+    ui->polygonVerticesEdit->clear();
 }
 
 
@@ -560,10 +637,28 @@ void MainWindow::on_verticesStarSlider_valueChanged(int value)
     ui->lineEditVertices->setText(QString::number(value));
 }
 
-
+//when this button is clicked a certain triangle
+//based on user selection will be drawn
 void MainWindow::on_appedTriangle_clicked()
 {
+    switch (triangle_type) {
+    case MyTriangleType::Custom :
+        qDebug()<<"Custom";
+        drawCustomTriangle();
+        break;
+    case MyTriangleType::Equilateral :
+        qDebug()<<"Equilateral";
+        drawEquilateralTriangle();
+        break;
+    case MyTriangleType::Isosceles :
+        qDebug()<<"Isosceles";
+        drawIsocscelesTriangle();
+        break;
+    case MyTriangleType::Scalene :
+        drawScaleneTriangle();
+        break;
 
+    }
 }
 
 
@@ -594,5 +689,30 @@ void MainWindow::on_home_2_clicked()
 void MainWindow::on_settings_clicked()
 {
     ui->stackedWidget->setCurrentIndex(3);
+}
+
+//When RadioButton for custom triangle is clicked
+void MainWindow::on_radioButton_4_clicked()
+{
+    triangle_type=MyTriangleType::Custom;
+}
+
+//When RadioButton for equilateral triangle is clicked
+void MainWindow::on_radioButton_3_clicked()
+{
+    triangle_type=MyTriangleType::Equilateral;
+}
+
+//When RadioButton for isosceles triangle is clicked
+void MainWindow::on_radioButton_2_clicked()
+{
+    triangle_type=MyTriangleType::Isosceles;
+}
+
+
+//when RadioButton for scalene triangle is clicked
+void MainWindow::on_radioButton_clicked()
+{
+    triangle_type=MyTriangleType::Scalene;
 }
 

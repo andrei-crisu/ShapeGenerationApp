@@ -10,6 +10,8 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
+
+enum class MyTriangleType{Scalene,Isosceles,Equilateral,Custom};
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -21,10 +23,15 @@ public:
 private:
     void resizeEvent(QResizeEvent *event)override;
     void closeEvent(QCloseEvent *event)override;
+    void drawCustomTriangle();
+    void drawEquilateralTriangle();
+    void drawIsocscelesTriangle();
+    void drawScaleneTriangle();
 
 private:
     Ui::MainWindow *ui;
     CustomScene *scene;
+    MyTriangleType triangle_type=MyTriangleType::Custom;
 
 signals:
     void sentMessage(const QString string);
@@ -61,5 +68,9 @@ private slots:
     void on_aboutQt_clicked();
     void on_home_2_clicked();
     void on_settings_clicked();
+    void on_radioButton_4_clicked();
+    void on_radioButton_3_clicked();
+    void on_radioButton_2_clicked();
+    void on_radioButton_clicked();
 };
 #endif // MAINWINDOW_H
