@@ -38,74 +38,267 @@ void MainWindow::closeEvent(QCloseEvent *event)
 //this function draws a custom triangle( vertices are given)
 void MainWindow::drawCustomTriangle()
 {
+    QString strAx,strAy,strBx,strBy,strCx,strCy;
+    float xA,yA,xB,yB,xC,yC;
+    bool ok;
+    //get data from ui    
+    strAx=ui->inputvAx->text();
+    strAy=ui->inputvAy->text();
+    strBx=ui->inputvBx->text();
+    strBy=ui->inputvBy->text();
+    strCx=ui->inputvCx->text();
+    strCy=ui->inputvCy->text();
+    //check if the user introduced data in the corresponding fields
+    if(strAx.isEmpty())
+    {
+        ui->statusbar->setStyleSheet("color: #AA0000;"
+                                     "font: 14pt; ");
+        ui->statusbar->showMessage("x coordinate for Vertex1 is not specified!",4000);
+        return;
+    }
+    if(strAy.isEmpty())
+    {
+        ui->statusbar->setStyleSheet("color: #AA0000;"
+                                     "font: 14pt; ");
+        ui->statusbar->showMessage("y coordinate for Vertex1 is not specified!",4000);
+        return;
+    }
+    if(strBx.isEmpty())
+    {
+        ui->statusbar->setStyleSheet("color: #AA0000;"
+                                     "font: 14pt; ");
+        ui->statusbar->showMessage("x coordinate for Vertex2 is not specified!",4000);
+        return;
+    }
+    if(strBy.isEmpty())
+    {
+        ui->statusbar->setStyleSheet("color: #AA0000;"
+                                     "font: 14pt; ");
+        ui->statusbar->showMessage("y coordinate for Vertex2 is not specified!",4000);
+        return;
+    }
+    if(strCx.isEmpty())
+    {
+        ui->statusbar->setStyleSheet("color: #AA0000;"
+                                     "font: 14pt; ");
+        ui->statusbar->showMessage("x coordinate for Vertex3 is not specified!",4000);
+        return;
+    }
+    if(strCy.isEmpty())
+    {
+        ui->statusbar->setStyleSheet("color: #AA0000;"
+                                     "font: 14pt; ");
+        ui->statusbar->showMessage("y coordinate for Vertex3 is not specified!",4000);
+        return;
+    }
+    //data is extracted as string
+    //now data must be checked to see if there are errors
+    //if not strings will be converted to float values
+    //extract Vertex1 coordinates
+    ok=false;
+    xA=strAx.toFloat(&ok);
+    if(!ok)
+    {
+        ui->statusbar->setStyleSheet("color: #AA0000;"
+                                     "font: 14pt; ");
+        ui->statusbar->showMessage("Vertex1 x field: [ "+strAx+" ] contain mistakes; not a number!",4000);
+        return;
+    }
+    ok=false;
+    yA=strAy.toFloat(&ok);
+    if(!ok)
+    {
+        ui->statusbar->setStyleSheet("color: #AA0000;"
+                                     "font: 14pt; ");
+        ui->statusbar->showMessage("Vertex1 y field: [ "+strAy+" ] contain mistakes; not a number!",4000);
+        return;
+    }
 
+    //extract Vertex2 coordinates
+    ok=false;
+    xB=strBx.toFloat(&ok);
+    if(!ok)
+    {
+        ui->statusbar->setStyleSheet("color: #AA0000;"
+                                     "font: 14pt; ");
+        ui->statusbar->showMessage("Vertex2 x field: [ "+strBx+" ] contain mistakes; not a number!",4000);
+        return;
+    }
+    ok=false;
+    yB=strBy.toFloat(&ok);
+    if(!ok)
+    {
+        ui->statusbar->setStyleSheet("color: #AA0000;"
+                                     "font: 14pt; ");
+        ui->statusbar->showMessage("Vertex2 y field: [ "+strBy+" ] contain mistakes; not a number!",4000);
+        return;
+    }
+
+    //extract Vertex3 coordinates
+    ok=false;
+    xC=strCx.toFloat(&ok);
+    if(!ok)
+    {
+        ui->statusbar->setStyleSheet("color: #AA0000;"
+                                     "font: 14pt; ");
+        ui->statusbar->showMessage("Vertex3 x field: [ "+strCx+" ] contain mistakes; not a number!",4000);
+        return;
+    }
+    ok=false;
+    yC=strCy.toFloat(&ok);
+    if(!ok)
+    {
+        ui->statusbar->setStyleSheet("color: #AA0000;"
+                                     "font: 14pt; ");
+        ui->statusbar->showMessage("Vertex3 y field: [ "+strCy+" ] contain mistakes; not a number!",4000);
+        return;
+    }
+    //test if A,B,C are not colinear
+    //cretate triangle with vertices A,B,C
+    //basically the are of triangle is computed
+    //if the area is 0 it means that the three points are on the same line ( are colinear)
+    float triangleArea;
+    triangleArea=(xA*(yB-yC)+xB*(yC-yA)+xC*(yA-yB))/2.0;
+    if(triangleArea==0)
+    {
+        ui->statusbar->setStyleSheet("color: #AA0000;"
+                                     "font: 14pt; ");
+        ui->statusbar->showMessage("Given points are colinear.A triangle can't be cretated with these points!",4000);
+        return;
+    }
+    QPolygonF custom_triangle;
+    custom_triangle.append(QPointF(xA,yA));
+    custom_triangle.append(QPointF(xB,yB));
+    custom_triangle.append(QPointF(xC,yC));
+    //add it to the scene
+    scene->addItem(new InheritedGraphicsPolygon(custom_triangle));
+    ui->graphicsView->fitInView(scene->sceneRect(),Qt::KeepAspectRatio);
+    ui->statusbar->setStyleSheet("color: #112090;"
+                                 "font: 14pt; ");
+    ui->statusbar->showMessage("Custom triangle added!",10000);
 }
 
 //this function draws an equilateral triangle
 void MainWindow::drawEquilateralTriangle()
 {
+    //number of vertices is 3
+    int nr=3;
+    float angleStep;
+    angleStep=360/(float)nr;
 
+    float x,y,r,xOrigin,yOrigin,angleValue;
+    //generate radius of circumscribed circle
+    r=QRandomGenerator::global()->bounded(30,240);
+
+    //generate random center coordinates
+    QPolygonF equilateral_triangle;
+    xOrigin=QRandomGenerator::global()->bounded(-300,301);
+    yOrigin=QRandomGenerator::global()->bounded(-300,301);
+    for(int i=0;i<nr;i++)
+    {
+        angleValue=i*angleStep;
+        x=r*qCos(qDegreesToRadians(angleValue));
+        y=r*qSin(qDegreesToRadians(angleValue));
+        equilateral_triangle.append(QPointF(xOrigin+x,yOrigin+y));
+    }
+    scene->addItem(new InheritedGraphicsPolygon(equilateral_triangle));
+    ui->graphicsView->fitInView(scene->sceneRect(),Qt::KeepAspectRatio);
+    ui->statusbar->setStyleSheet("color: #112090;"
+                                 "font: 14pt; ");
+    ui->statusbar->showMessage("RANDOM:: Equilateral triangle generated!",4000);
 }
 
 //this function draws an isosceles triangle
 void MainWindow::drawIsocscelesTriangle()
 {
+    float xP,yP,height,half_of_base,teta;
+    float xA,yA,xB,yB,xC,yC;//will contain values relative to point P(xP,yP)
+    float x,y;
+    //it generates height of the isosceles triangle
+    height=QRandomGenerator::global()->bounded(120,240);
+    //it generates a number that represent half of the triangle base
+    //It is considered base the side that has the equal angles next to it
+    half_of_base=QRandomGenerator::global()->bounded(30,120);
 
+    QPolygonF isosceles_triangle;
+    //The coordinates of the point P are generated
+    //P(xp,yp) represent the point located in the middle of the side
+    xP=QRandomGenerator::global()->bounded(-300,301);
+    yP=QRandomGenerator::global()->bounded(-300,301);
+    //cartesian coordinates of vertices A,B,C relative to point P
+    xA=xP;
+    yA=yP+height;
+    xB=xP-half_of_base;
+    yB=yP;
+    xC=xP+half_of_base;
+    yC=yP;
+
+    //initially is considered that  the triangle has the base parallel to the Ox axis;
+    //the isosceles triangle is rotated with a random angle between 0 and 360 degrees
+    teta=QRandomGenerator::global()->bounded(0,360);
+    //vertex A coordinates after rotation
+    x=xA;
+    y=yA;
+    xA=(x-xP)*qCos(qDegreesToRadians(teta))-(y-yP)*qSin(qDegreesToRadians(teta))+xP;
+    yA=(x-xP)*qSin(qDegreesToRadians(teta))+(y-yP)*qCos(qDegreesToRadians(teta))+yP;
+    //vertex B coordinates after rotation
+    x=xB;
+    y=yB;
+    xB=(x-xP)*qCos(qDegreesToRadians(teta))-(y-yP)*qSin(qDegreesToRadians(teta))+xP;
+    yB=(x-xP)*qSin(qDegreesToRadians(teta))+(y-yP)*qCos(qDegreesToRadians(teta))+yP;
+    //vertex C coordinates after rotation
+    x=xC;
+    y=yC;
+    xC=(x-xP)*qCos(qDegreesToRadians(teta))-(y-yP)*qSin(qDegreesToRadians(teta))+xP;
+    yC=(x-xP)*qSin(qDegreesToRadians(teta))+(y-yP)*qCos(qDegreesToRadians(teta))+yP;
+
+    isosceles_triangle.append(QPointF(xA,yA));
+    isosceles_triangle.append(QPointF(xB,yB));
+    isosceles_triangle.append(QPointF(xC,yC));
+
+
+    scene->addItem(new InheritedGraphicsPolygon(isosceles_triangle));
+    ui->graphicsView->fitInView(scene->sceneRect(),Qt::KeepAspectRatio);
+    ui->statusbar->setStyleSheet("color: #112090;"
+                                 "font: 14pt; ");
+    ui->statusbar->showMessage("RANDOM:: Isosceles triangle generated!",4000);
 }
 
 //this function draws a scalene triangle
 //(this means that the triangle sides have different lengths)
 void MainWindow::drawScaleneTriangle()
 {
-    //the shape is a traingle (there are 3 vertices)
-    int nr=3;
-    float x,y,r,xOrigin,yOrigin;
+    float r,xOrigin,yOrigin;
+    float tetaA,tetaB,tetaC;
+    float xA,yA,xB,yB,xC,yC;
 
     //generate radius of circumscribed circle
-    r=QRandomGenerator::global()->bounded(60,121);
-    int val;
-    bool duplicateFlag=false;
-    QList<int> firstList;
-    for(int i=1;i<=nr;i++)
-    {
-        val=QRandomGenerator::global()->bounded(0,360);
-        for(int i=0;i<firstList.length();i++)
-            if(val==firstList.at(i))
-            {
-                duplicateFlag=true;
-                break;
-            }
-            else
-            {
-                duplicateFlag=false;
-            }
-        if(!duplicateFlag)
-            firstList.append(val);
-    }
-    int aux;
-    //sorting list
-    for(int i=0;i<firstList.length()-1;i++)
-        for(int j=i+1;j<firstList.length();j++)
-            if(firstList.at(i)<firstList.at(j))
-            {
-                aux=firstList.at(i);
-                firstList.replace(i,firstList.at(j));
-                firstList.replace(j,aux);
+    r=QRandomGenerator::global()->bounded(120,320);
+    //generate polar coordintate (teta) for each point
+    tetaA=QRandomGenerator::global()->bounded(0,180);
+    tetaB=QRandomGenerator::global()->bounded(180,270);
+    tetaC=QRandomGenerator::global()->bounded(270,360);
 
-            }
-    nr=firstList.length();
-    QPolygonF polygon;
+    QPolygonF scaleneTriangle;
     //origin of circumscribed circle
     xOrigin=QRandomGenerator::global()->bounded(-300,301);
     yOrigin=QRandomGenerator::global()->bounded(-300,301);
-    for(int i=0;i<nr;i++)
-    {
-        val=firstList.at(i);
-        x=r*qCos(qDegreesToRadians(val));
-        y=r*qSin(qDegreesToRadians(val));
-        polygon.append(QPointF(xOrigin+x,yOrigin+y));
-    }
-    scene->addItem(new InheritedGraphicsPolygon(polygon));
+
+    //cartesian coordinates of vertex A relative to Origin(xOrigin,yOrigin)
+    xA=r*qCos(qDegreesToRadians(tetaA));
+    yA=r*qSin(qDegreesToRadians(tetaA));
+    //cartesian coordinates of vertex B relative to Origin(xOrigin,yOrigin)
+    xB=r*qCos(qDegreesToRadians(tetaB));
+    yB=r*qSin(qDegreesToRadians(tetaB));
+    //cartesian coordinates of vertex C relative to Origin(xOrigin,yOrigin)
+    xC=r*qCos(qDegreesToRadians(tetaC));
+    yC=r*qSin(qDegreesToRadians(tetaC));
+
+    scaleneTriangle.append(QPointF(xOrigin+xA,yOrigin+yA));
+    scaleneTriangle.append(QPointF(xOrigin+xB,yOrigin+yB));
+    scaleneTriangle.append(QPointF(xOrigin+xC,yOrigin+yC));
+
+    scene->addItem(new InheritedGraphicsPolygon(scaleneTriangle));
     ui->graphicsView->fitInView(scene->sceneRect(),Qt::KeepAspectRatio);
     ui->statusbar->setStyleSheet("color: #112090;"
                                  "font: 14pt; ");
@@ -643,15 +836,12 @@ void MainWindow::on_appedTriangle_clicked()
 {
     switch (triangle_type) {
     case MyTriangleType::Custom :
-        qDebug()<<"Custom";
         drawCustomTriangle();
         break;
     case MyTriangleType::Equilateral :
-        qDebug()<<"Equilateral";
         drawEquilateralTriangle();
         break;
     case MyTriangleType::Isosceles :
-        qDebug()<<"Isosceles";
         drawIsocscelesTriangle();
         break;
     case MyTriangleType::Scalene :

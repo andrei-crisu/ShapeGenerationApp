@@ -23,7 +23,8 @@ HEADERS += \
     customscene.h \
     inheritedgraphicsellipse.h \
     inheritedgraphicspolygon.h \
-    mainwindow.h
+    mainwindow.h \
+    ui_mainwindow.h
 
 FORMS += \
     mainwindow.ui

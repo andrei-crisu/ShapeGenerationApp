@@ -1,0 +1,10 @@
+release/basic_use.o
+release/customscene.o
+release/inheritedgraphicsellipse.o
+release/inheritedgraphicspolygon.o
+release/main.o
+release/mainwindow.o
+release/qrc_icons.o
+release/qrc_resources.o
+release/moc_customscene.o
+release/moc_mainwindow.o
