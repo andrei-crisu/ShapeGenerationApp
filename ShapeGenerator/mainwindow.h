@@ -72,5 +72,15 @@ private slots:
     void on_radioButton_3_clicked();
     void on_radioButton_2_clicked();
     void on_radioButton_clicked();
+    void on_addRectangle_clicked();
+    void on_rotationAngleSlider_valueChanged(int value);
+    void on_checkBox_stateChanged(int arg1);
+    void on_checkBoxRandDim_stateChanged(int arg1);
+    void on_checkBoxCustomOrigin_stateChanged(int arg1);
+    void on_cogsNrSlider_valueChanged(int value);
+    void on_cogsBaseRadiusSilder_valueChanged(int value);
+    void on_cogsHeightSlider_valueChanged(int value);
+    void on_addCogwheel_clicked();
+    void on_transparencySlider_valueChanged(int value);
 };
 #endif // MAINWINDOW_H

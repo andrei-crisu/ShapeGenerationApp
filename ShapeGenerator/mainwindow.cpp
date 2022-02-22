@@ -467,28 +467,26 @@ void MainWindow::on_addEllipse_clicked()
 
 }
 
-
 void MainWindow::on_clearButton_clicked()
 {
     scene->clear();
-    ui->graphicsView->fitInView(scene->itemsBoundingRect(),Qt::KeepAspectRatio);
+    scene->setSceneRect(QRectF(-300,-300,700,500));
+    ui->graphicsView->fitInView(scene->sceneRect(),Qt::KeepAspectRatio);
 }
-
 
 void MainWindow::on_zoomInButtton_clicked()
 {
     ui->graphicsView->scale(1.1,1.1);
 }
 
-
 void MainWindow::on_zoomOutButton_clicked()
 {
     ui->graphicsView->scale(0.9,0.9);
 }
 
-
 void MainWindow::on_zoomToFitButton_clicked()
 {
+    scene->setSceneRect(scene->itemsBoundingRect());
     ui->graphicsView->fitInView(scene->sceneRect(),Qt::KeepAspectRatio);
 }
 
@@ -578,7 +576,6 @@ void MainWindow::on_addPolygon_clicked()
                                  "font: 14pt; ");
     ui->statusbar->showMessage("Polygon added!",4000);
 }
-
 
 void MainWindow::on_addRandomPolygon_clicked()
 {
@@ -719,7 +716,7 @@ void MainWindow::on_addRandomPolygon_2_clicked()
     xSample2=longRadius*qCos(qDegreesToRadians(2*angleStep));
     ySample2=longRadius*qSin(qDegreesToRadians(2*angleStep));
 
-    //calculate distance from a poin to the line (shortRadius)
+    //calculate distance from a point to the line (shortRadius)
     //the line is determined through points P1(xSample1,ySample1) and P2(xSample2,ySample2)
     //distance from P1 to P2
     float distanceSample=qSqrt(qPow(xSample2-xSample1,2)+qPow(ySample2-ySample1,2));
@@ -727,15 +724,6 @@ void MainWindow::on_addRandomPolygon_2_clicked()
     shortRadius=shortRadius/distanceSample;
     shortRadius=shortRadius*((100-ui->depthStarSlider->value())/100.0);
     //---------------------------------------
-
-    //just as reminder
-    //---------------------------------------
-    /*  generate short radius,but  not prorerly
-    in some cases generated stars will be ugly
-    shortRadius=longRadius*((100-ui->depthStarSlider->value())/100.0);*/
-    //---------------------------------------
-
-
     //generate random center coordinates
     QPolygonF polygon;
     xOrigin=QRandomGenerator::global()->bounded(-300,301);
@@ -904,5 +892,278 @@ void MainWindow::on_radioButton_2_clicked()
 void MainWindow::on_radioButton_clicked()
 {
     triangle_type=MyTriangleType::Scalene;
+}
+
+
+void MainWindow::on_addRectangle_clicked()
+{
+    float xOrigin,yOrigin,width,height,rotationAngle;
+    QString strWidth,strHeight,strX,strY;
+    bool ok;
+    strX=ui->xRectOrigin->text();
+    strY=ui->yRectOrigin->text();
+
+    if(ui->checkBoxCustomOrigin->isChecked())
+    {
+        //check if the user introduced data in the corresponding fields
+        if(strX.isEmpty())
+        {
+            ui->statusbar->setStyleSheet("color: #AA0000;"
+                                         "font: 14pt; ");
+            ui->statusbar->showMessage("x coordinate for Origin is not specified!",4000);
+            return;
+        }
+        if(strY.isEmpty())
+        {
+            ui->statusbar->setStyleSheet("color: #AA0000;"
+                                         "font: 14pt; ");
+            ui->statusbar->showMessage("y coordinate for Origin is not specified!",4000);
+            return;
+        }
+        //data is extracted as string
+        //now data must be checked to see if there are errors
+        //if not strings will be converted to float values
+        //extract Origin coordinates
+        ok=false;
+        xOrigin=strX.toFloat(&ok);
+        if(!ok)
+        {
+            ui->statusbar->setStyleSheet("color: #AA0000;"
+                                         "font: 14pt; ");
+            ui->statusbar->showMessage("Origin x field: [ "+strX+" ] contain mistakes; not a number!",4000);
+            return;
+        }
+        ok=false;
+        yOrigin=strY.toFloat(&ok);
+        if(!ok)
+        {
+            ui->statusbar->setStyleSheet("color: #AA0000;"
+                                         "font: 14pt; ");
+            ui->statusbar->showMessage("Origin y field: [ "+strY+" ] contain mistakes; not a number!",4000);
+            return;
+        }
+    }
+    else
+    {
+        xOrigin=QRandomGenerator::global()->bounded(-450,450);
+        yOrigin=QRandomGenerator::global()->bounded(-450,450);
+    }
+    //checkBoxRandDim has next explanation:
+    // if it is checked it means that rectangle will be created with custom dimensions
+    //else it will have random dimensions
+    strWidth=ui->rectWidth->text();
+    strHeight=ui->rectHeight->text();
+    if(ui->checkBoxRandDim->isChecked())
+    {
+        //check if the user introduced data in the corresponding fields
+        if(strWidth.isEmpty())
+        {
+            ui->statusbar->setStyleSheet("color: #AA0000;"
+                                         "font: 14pt; ");
+            ui->statusbar->showMessage("Width is not specified!",4000);
+            return;
+        }
+        if(strHeight.isEmpty())
+        {
+            ui->statusbar->setStyleSheet("color: #AA0000;"
+                                         "font: 14pt; ");
+            ui->statusbar->showMessage("Height is not specified!",4000);
+            return;
+        }
+        //data is extracted as string
+        //now data must be checked to see if there are errors
+        //if not strings will be converted to float values
+        //extract widht and height
+        ok=false;
+        width=strWidth.toFloat(&ok);
+        if(!ok)
+        {
+            ui->statusbar->setStyleSheet("color: #AA0000;"
+                                         "font: 14pt; ");
+            ui->statusbar->showMessage("Width field: [ "+strWidth+" ] contain mistakes; not a number!",4000);
+            return;
+        }
+        ok=false;
+        height=strHeight.toFloat(&ok);
+        if(!ok)
+        {
+            ui->statusbar->setStyleSheet("color: #AA0000;"
+                                         "font: 14pt; ");
+            ui->statusbar->showMessage("Height field: [ "+strHeight+" ] contain mistakes; not a number!",4000);
+            return;
+        }
+
+    }
+    else
+    {
+        width=QRandomGenerator::global()->bounded(300,500);
+        height=QRandomGenerator::global()->bounded(50,250);
+
+    }
+    if(ui->checkBox->isChecked())
+       rotationAngle=ui->rotationAngleSlider->value();
+    else
+        rotationAngle=QRandomGenerator::global()->bounded(0,360);
+
+
+    //rectangle vertices
+    float xA,yA,xB,yB,xC,yC,xD,yD;
+    //will use an auxiliar variables to be more clear
+    float x,y;
+    //rotation will be done around point Origin (xOrigin,yOrigin) which is the same with A(xA,yA)
+    //in conclusion point A will remain the same after rotation
+    xA=xOrigin;
+    yA=yOrigin;
+
+    //the other points  will be:
+    //vertex B before rotation
+    xB=xOrigin+width;
+    yB=yOrigin;
+    //vertex B coordinates after rotation
+    x=xB;
+    y=yB;
+    xB=(x-xOrigin)*qCos(qDegreesToRadians(rotationAngle))-(y-yOrigin)*qSin(qDegreesToRadians(rotationAngle))+xOrigin;
+    yB=(x-xOrigin)*qSin(qDegreesToRadians(rotationAngle))+(y-yOrigin)*qCos(qDegreesToRadians(rotationAngle))+yOrigin;
+
+    //vertex C before rotation
+    xC=xOrigin+width;
+    yC=yOrigin+height;
+    //vertex C coordinates after rotation
+    x=xC;
+    y=yC;
+    xC=(x-xOrigin)*qCos(qDegreesToRadians(rotationAngle))-(y-yOrigin)*qSin(qDegreesToRadians(rotationAngle))+xOrigin;
+    yC=(x-xOrigin)*qSin(qDegreesToRadians(rotationAngle))+(y-yOrigin)*qCos(qDegreesToRadians(rotationAngle))+yOrigin;
+
+    //vertex D before rotation
+    xD=xOrigin;
+    yD=yOrigin+height;
+    //vertex D coordinates after rotation
+    x=xD;
+    y=yD;
+    xD=(x-xOrigin)*qCos(qDegreesToRadians(rotationAngle))-(y-yOrigin)*qSin(qDegreesToRadians(rotationAngle))+xOrigin;
+    yD=(x-xOrigin)*qSin(qDegreesToRadians(rotationAngle))+(y-yOrigin)*qCos(qDegreesToRadians(rotationAngle))+yOrigin;
+
+    QPolygonF rectangle;
+    rectangle.append(QPointF(xA,yA));
+    rectangle.append(QPointF(xB,yB));
+    rectangle.append(QPointF(xC,yC));
+    rectangle.append(QPointF(xD,yD));
+
+    scene->addItem(new InheritedGraphicsPolygon(rectangle));
+    ui->graphicsView->fitInView(scene->itemsBoundingRect(),Qt::KeepAspectRatio);
+    ui->statusbar->setStyleSheet("color: #112090;"
+                                 "font: 14pt; ");
+    ui->statusbar->showMessage("STATUS: Rectangle generated!",6000);
+}
+
+
+void MainWindow::on_rotationAngleSlider_valueChanged(int value)
+{
+   ui->angleValueDisp->setText(QString::number(value));
+}
+
+
+void MainWindow::on_checkBox_stateChanged(int arg1)
+{
+    //if arg1 is true "angle_groupBox" group box will be enabled
+    //else it will be disabled
+    ui->angle_groupBox->setEnabled(arg1);
+    if(!arg1)
+        ui->angleValueDisp->clear();
+}
+
+
+void MainWindow::on_checkBoxRandDim_stateChanged(int arg1)
+{
+    //if arg1 is true "grpBxDim" group box will be enabled
+    //else it will be disabled
+       ui->grpBxDim->setEnabled(arg1);
+       if(!arg1)
+       {
+           ui->rectHeight->clear();
+           ui->rectWidth->clear();
+       }
+}
+
+
+void MainWindow::on_checkBoxCustomOrigin_stateChanged(int arg1)
+{
+    //if arg1 is true "grpBoxOrigin" group box will be enabled
+    //else it will be disabled
+    ui->grpBxOrigin->setEnabled(arg1);
+    if(!arg1)
+    {
+        ui->xRectOrigin->clear();
+        ui->yRectOrigin->clear();
+    }
+}
+
+
+void MainWindow::on_cogsNrSlider_valueChanged(int value)
+{
+    ui->cogsNumberDisp->setText(QString::number(value));
+}
+
+
+void MainWindow::on_cogsBaseRadiusSilder_valueChanged(int value)
+{
+    ui->cogsBaseRadiusDisp->setText(QString::number(value));
+}
+
+
+void MainWindow::on_cogsHeightSlider_valueChanged(int value)
+{
+    ui->cogsHeightDisp->setText(QString::number(value)+" %");
+}
+
+void MainWindow::on_addCogwheel_clicked()
+{
+    float nrCogs,cogBaseRadius,cogHeight;
+    nrCogs=ui->cogsNrSlider->value();
+    cogBaseRadius=ui->cogsBaseRadiusSilder->value();
+    cogHeight=ui->cogsHeightSlider->value();
+    cogHeight=cogHeight*cogBaseRadius/100.0;
+
+    float angleStep,angleValue=0;
+    angleStep=360.0/nrCogs;
+
+    float x,y,xOrigin,yOrigin,cogBigRadius;
+    cogBigRadius=cogBaseRadius+cogHeight;
+
+    //generate random center coordinates
+    QPolygonF cogShape;
+    xOrigin=QRandomGenerator::global()->bounded(-300,301);
+    yOrigin=QRandomGenerator::global()->bounded(-300,301);
+    for(int i=0;i<nrCogs;i++)
+    {
+        angleValue=i*angleStep;
+        x=cogBaseRadius*qCos(qDegreesToRadians(angleValue));
+        y=cogBaseRadius*qSin(qDegreesToRadians(angleValue));
+        cogShape.append(QPointF(xOrigin+x,yOrigin+y));
+        x=cogBigRadius*qCos(qDegreesToRadians(angleValue+0.1*angleStep));
+        y=cogBigRadius*qSin(qDegreesToRadians(angleValue+0.1*angleStep));
+        cogShape.append(QPointF(xOrigin+x,yOrigin+y));
+        x=cogBigRadius*qCos(qDegreesToRadians(angleValue+0.5*angleStep));
+        y=cogBigRadius*qSin(qDegreesToRadians(angleValue+0.5*angleStep));
+        cogShape.append(QPointF(xOrigin+x,yOrigin+y));
+        x=cogBaseRadius*qCos(qDegreesToRadians(angleValue+0.6*angleStep));
+        y=cogBaseRadius*qSin(qDegreesToRadians(angleValue+0.6*angleStep));
+        cogShape.append(QPointF(xOrigin+x,yOrigin+y));
+        x=cogBaseRadius*qCos(qDegreesToRadians(angleValue+angleStep));
+        y=cogBaseRadius*qSin(qDegreesToRadians(angleValue+angleStep));
+        cogShape.append(QPointF(xOrigin+x,yOrigin+y));
+    }
+    scene->addItem(new InheritedGraphicsPolygon(cogShape));
+    ui->graphicsView->fitInView(scene->sceneRect(),Qt::KeepAspectRatio);
+    ui->statusbar->setStyleSheet("color: #112090;"
+                                 "font: 14pt; ");
+    ui->statusbar->showMessage("STATUS:: CogWheel added!",4000);
+}
+
+
+void MainWindow::on_transparencySlider_valueChanged(int value)
+{
+    ui->opacityDisp->setText(QString::number(value)+"%");
+    setWindowOpacity((float)value/100.0);
 }
 
