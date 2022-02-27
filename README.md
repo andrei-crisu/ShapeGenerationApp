@@ -17,3 +17,10 @@
 
 ## Generation of a star:  
 <i> A user can generate a star with a number of vertices between 3 and 16</i>
+<i> The second property that can be chosen by the user is <b> Depth <b/> and it is a value between 10% and 90% of Radius.<i/>
+<i> The radius represent the distance from star center to the one of the vertices.The center point is randomly generated ,where x and y coordinates are values between -300 and 300<i/>
+  
+  * First image shows a _5_ vertices star with a depth of 60% *
+![generate_star](https://user-images.githubusercontent.com/68897925/155890134-be02b4e5-90ff-4183-9aac-3e89c3dd9cb4.png)
+  * Second image shows a _
+![generate_star2](https://user-images.githubusercontent.com/68897925/155890138-a60a5904-c8e7-4f78-991f-e2657314c2c3.png)
