@@ -15,4 +15,5 @@
 
 
 
-##Generation of a star:
+## Generation of a star:  
+<i> A user can generate a star with a number of vertices between 3 and 16</i>
