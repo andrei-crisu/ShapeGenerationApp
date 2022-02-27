@@ -6,4 +6,4 @@
 -stars
 -rectangles
 -triangles
-[CogWheel shape - Model (1).pdf](https://github.com/andrei-crisu/ShapeGenerationApp/files/8148888/CogWheel.shape.-.Model.1.pdf)
+![shape_generation_home](https://user-images.githubusercontent.com/68897925/155889239-ebb156f5-553b-4769-b8b2-c9dd58b52547.png)
