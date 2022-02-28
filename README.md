@@ -22,5 +22,7 @@
   
   * First image shows a _5_ vertices star with a depth of 60% *
 ![generate_star](https://user-images.githubusercontent.com/68897925/155890134-be02b4e5-90ff-4183-9aac-3e89c3dd9cb4.png)
-  * Second image shows a _
+  * Second image shows a _16_ vertices start with a depth of 90% *
 ![generate_star2](https://user-images.githubusercontent.com/68897925/155890138-a60a5904-c8e7-4f78-991f-e2657314c2c3.png)
+  
+  *For simplicity reason the explanation will continue with the first example. The algorith of star generation is the next one: *
